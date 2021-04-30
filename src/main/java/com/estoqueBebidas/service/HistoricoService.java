@@ -1,5 +1,7 @@
 package com.estoqueBebidas.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +23,10 @@ public class HistoricoService {
 	
 	@Autowired
 	private ProdutoService produtoService;
+	
+	public List<Historico> buscarTodos(){
+		return historicoRepo.findAll();
+	}
 	
 	@Transactional
 	public Historico salvaHistorico(HistoricoInsertDTO objDto) {
