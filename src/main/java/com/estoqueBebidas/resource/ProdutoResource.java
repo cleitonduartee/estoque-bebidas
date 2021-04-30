@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.estoqueBebidas.entities.Produto;
+import com.estoqueBebidas.entities.dto.ProdutoEntradaSaidaDTO;
 import com.estoqueBebidas.entities.dto.ProdutoInsertDTO;
 import com.estoqueBebidas.entities.dto.ProdutoOutDTO;
 import com.estoqueBebidas.service.ProdutoService;
@@ -40,9 +41,21 @@ public class ProdutoResource {
 		return ResponseEntity.ok().body(listDto);
 	}
 	
-	@PostMapping(value="/cadastra")
+	@PostMapping(value="/cadastrar")
 	public ResponseEntity<Void> cadastrarProduto(@RequestBody ProdutoInsertDTO objDto){
 		Produto produto = produtoService.cadastrarProduto(objDto);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(produto.getId()).toUri();
+		return ResponseEntity.created(uri).build();
+	}
+	@PostMapping(value="/compra")
+	public ResponseEntity<Void> entradaProduto(@RequestBody ProdutoEntradaSaidaDTO objDto){
+		Produto produto = produtoService.entradaDeProduto(objDto);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(produto.getId()).toUri();
+		return ResponseEntity.created(uri).build();
+	}
+	@PostMapping(value="/venda")
+	public ResponseEntity<Void> saidaProduto(@RequestBody ProdutoEntradaSaidaDTO objDto){
+		Produto produto = produtoService.saidaDeProduto(objDto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(produto.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}

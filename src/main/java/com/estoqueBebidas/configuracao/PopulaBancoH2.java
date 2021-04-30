@@ -5,6 +5,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
 import com.estoqueBebidas.entities.Secao;
+import com.estoqueBebidas.entities.dto.ProdutoEntradaSaidaDTO;
 import com.estoqueBebidas.entities.dto.ProdutoInsertDTO;
 import com.estoqueBebidas.entities.enuns.Categoria;
 import com.estoqueBebidas.service.ProdutoService;
@@ -29,17 +30,26 @@ public class PopulaBancoH2 implements CommandLineRunner {
 		secaoService.salvarSecao(new Secao(null, "Energeticos", Categoria.NAOALCOOLICA));
 				
 		produtoService.cadastrarProduto( new ProdutoInsertDTO(null,"Itaipava",Categoria.ALCOOLICA,1,"Cleiton Duarte",0.0));
-		produtoService.cadastrarProduto( new ProdutoInsertDTO(null,"Bohemia",Categoria.ALCOOLICA,1,"Cleiton Duarte",0.0));
+		produtoService.entradaDeProduto( new ProdutoEntradaSaidaDTO(1,1,"Cleiton Duarte",130.0));
 		produtoService.cadastrarProduto(new ProdutoInsertDTO(null,"Suco de Laranja",Categoria.NAOALCOOLICA,2,"Cleiton Duarte",0.0));
 		produtoService.cadastrarProduto(new ProdutoInsertDTO(null,"Suco de Uva",Categoria.NAOALCOOLICA,2,"Cleiton Duarte",0.0));
-		produtoService.cadastrarProduto(new ProdutoInsertDTO(null,"Suco de Abacaxi",Categoria.NAOALCOOLICA,2,"Cleiton Duarte",0.0));
+		produtoService.entradaDeProduto(new ProdutoEntradaSaidaDTO(3,2,"Cleiton Duarte",255.0));
 		produtoService.cadastrarProduto(new ProdutoInsertDTO(null,"Coca-Cola",Categoria.NAOALCOOLICA,3,"Cleiton Duarte",0.0));
 		produtoService.cadastrarProduto(new ProdutoInsertDTO(null,"Fanta",Categoria.NAOALCOOLICA,3,"Cleiton Duarte",0.0));
-		produtoService.cadastrarProduto(new ProdutoInsertDTO(null,"Vinho Suave ",Categoria.ALCOOLICA,4,"Cleiton Duarte",0.0));
-		produtoService.cadastrarProduto(new ProdutoInsertDTO(null,"Vinho Branco",Categoria.ALCOOLICA,4,"Cleiton Duarte",0.0));
+		produtoService.entradaDeProduto(new ProdutoEntradaSaidaDTO(4,3,"Cleiton Duarte",188.0));
+		produtoService.entradaDeProduto(new ProdutoEntradaSaidaDTO(5,3,"Cleiton Duarte",193.0));
+		produtoService.entradaDeProduto(new ProdutoEntradaSaidaDTO(5,4,"Cleiton Duarte",208.0));
+		produtoService.entradaDeProduto(new ProdutoEntradaSaidaDTO(5,4,"Cleiton Duarte",211.0));
 		produtoService.cadastrarProduto(new ProdutoInsertDTO(null,"Red Bull",Categoria.NAOALCOOLICA,5,"Cleiton Duarte",0.0));
 		produtoService.cadastrarProduto(new ProdutoInsertDTO(null,"Monster",Categoria.NAOALCOOLICA,5,"Cleiton Duarte",0.0));
 		produtoService.cadastrarProduto(new ProdutoInsertDTO(null,"Fusion",Categoria.NAOALCOOLICA,5,"Cleiton Duarte",0.0));
+		produtoService.entradaDeProduto(new ProdutoEntradaSaidaDTO(6,5,"Cleiton Duarte",73.0));
+		produtoService.entradaDeProduto(new ProdutoEntradaSaidaDTO(7,5,"Cleiton Duarte",98.0));
+		produtoService.entradaDeProduto(new ProdutoEntradaSaidaDTO(8,5,"Cleiton Duarte",38.0));
+		produtoService.saidaDeProduto(new ProdutoEntradaSaidaDTO(6,5,"Cleiton Duarte",9.0));
+		produtoService.saidaDeProduto(new ProdutoEntradaSaidaDTO(7,5,"Cleiton Duarte",100.0));
+		produtoService.saidaDeProduto(new ProdutoEntradaSaidaDTO(7,5,"Cleiton Duarte",10.0));
+
 		
 	}
 

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.estoqueBebidas.entities.Historico;
 import com.estoqueBebidas.entities.Produto;
 import com.estoqueBebidas.entities.Secao;
+import com.estoqueBebidas.entities.dto.ProdutoEntradaSaidaDTO;
 import com.estoqueBebidas.entities.dto.ProdutoInsertDTO;
 import com.estoqueBebidas.entities.enuns.Operacao;
 import com.estoqueBebidas.repository.ProdutoRepository;
@@ -37,7 +38,7 @@ public class ProdutoService {
 	}
 	
 	public Produto salvaProduto(ProdutoInsertDTO objDto) {		
-		if(!verificaCadastro(objDto.getNome())) {
+		if(produtoNaoCadastrado(objDto.getNome())) {
 			Secao secao =secaoService.buscarPorId(objDto.getSecao_id());
 			Produto produto = new Produto(null, objDto.getNome(), objDto.getCategoria(), secao);			
 			return produtoRepo.save(produto);
@@ -51,7 +52,7 @@ public class ProdutoService {
 		objDto.setVolume(0.0);
 		Secao secao = secaoService.buscarPorId(objDto.getSecao_id());
 		if (secao.verificaEspacoDisponivel() >= objDto.getVolume()) {
-			if (verificaCadastro(objDto.getNome())) {
+			if (produtoNaoCadastrado(objDto.getNome())) {
 				Produto produto = produtoRepo.save((new Produto(null, objDto.getNome(), objDto.getCategoria(), secao)));
 				Historico historico = historicoService.salvaHistorico(new Historico(null, objDto.getResponsavel(),
 						objDto.getHorario(), objDto.getVolume(), secao, produto, Operacao.CADASTRO));
@@ -69,9 +70,50 @@ public class ProdutoService {
 				+ objDto.getVolume() + ", volume disponível na secão: " + secao.verificaEspacoDisponivel());
 
 	}
-	private boolean verificaCadastro(String nome) {		
+	@Transactional
+	public Produto entradaDeProduto(ProdutoEntradaSaidaDTO objDto) {
+
+		
+		Secao secao = secaoService.buscarPorId(objDto.getSecao_id());
+		if (secao.verificaEspacoDisponivel() >= objDto.getVolume()) {
+			Produto produto = buscarPorId(objDto.getId());
+
+			Historico historico = historicoService.salvaHistorico(new Historico(null, objDto.getResponsavel(),
+					objDto.getHorario(), objDto.getVolume(), secao, produto, Operacao.COMPRA));
+			secao.addHistorico(historico);
+			secao.addVolume(historico.getVolume());
+			produto.addHistorico(historico);
+			secaoService.salvarSecao(secao);
+			return produtoRepo.save(produto);
+
+		}
+		throw new IllegalArgumentException("Volume informado excede o espaco disponível da Secao. Volume informado: "
+				+ objDto.getVolume() + ", volume disponível na secão: " + secao.verificaEspacoDisponivel());
+
+	}
+	@Transactional
+	public Produto saidaDeProduto(ProdutoEntradaSaidaDTO objDto) {
+
+		
+		Secao secao = secaoService.buscarPorId(objDto.getSecao_id());
+		if (secao.verificaEspacoDisponivel() >= objDto.getVolume()) {
+			Produto produto = buscarPorId(objDto.getId());
+			Historico historico = historicoService.salvaHistorico(new Historico(null, objDto.getResponsavel(),
+					objDto.getHorario(), objDto.getVolume(), secao, produto, Operacao.CADASTRO));
+			secao.addHistorico(historico);			
+			secao.removeVolume(historico.getVolume());
+			produto.addHistorico(historico);
+			secaoService.salvarSecao(secao);
+			return produtoRepo.save(produto);
+
+		}
+		throw new IllegalArgumentException("Volume informado é maior que o espaco disponível da Secao. Volume informado: "
+				+ objDto.getVolume() + ", volume disponível na secão: " + secao.verificaEspacoDisponivel());
+
+	}
+	private boolean produtoNaoCadastrado(String nome) {		
 		Produto p = produtoRepo.findByNome(nome);		
-		if(p == null) return false;
-		return true;
+		if(p == null) return true;
+		return false;
 	}
 }

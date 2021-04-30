@@ -104,6 +104,9 @@ public class Secao implements Serializable {
 	public void addVolume(Double volume) {
 		totalArmazenado += volume;
 	}
+	public void removeVolume(Double volume) {
+		totalArmazenado -= volume;
+	}
 	public Double verificaEspacoDisponivel() {
 		return capacidade-totalArmazenado;
 	}
