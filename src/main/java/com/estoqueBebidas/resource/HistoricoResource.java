@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.estoqueBebidas.entities.Historico;
-import com.estoqueBebidas.entities.dto.HistoricoInsertDTO;
+import com.estoqueBebidas.entities.dto.HistoricoCompraDTO;
 import com.estoqueBebidas.entities.dto.HistoricoOutDTO;
 import com.estoqueBebidas.service.HistoricoService;
 
@@ -40,10 +40,10 @@ public class HistoricoResource {
 		return ResponseEntity.ok().body(listDto);
 	}
 
-	@PostMapping()
-	public ResponseEntity<Void> salvarProduto(@RequestBody HistoricoInsertDTO objDto){
-		Historico historico = historicoService.salvaHistorico(objDto);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(historico.getId()).toUri();
-		return ResponseEntity.created(uri).build();
-	}
+//	@PostMapping()
+//	public ResponseEntity<Void> salvarProduto(@RequestBody HistoricoCompraDTO objDto){
+//		Historico historico = historicoService.salvaHistorico(objDto);
+//		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(historico.getId()).toUri();
+//		return ResponseEntity.created(uri).build();
+//	}
 }

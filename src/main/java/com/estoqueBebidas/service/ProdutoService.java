@@ -5,7 +5,9 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.estoqueBebidas.entities.Historico;
 import com.estoqueBebidas.entities.Produto;
 import com.estoqueBebidas.entities.Secao;
 import com.estoqueBebidas.entities.dto.ProdutoInsertDTO;
@@ -21,6 +23,9 @@ public class ProdutoService {
 	@Autowired
 	private SecaoService secaoService;
 	
+	@Autowired
+	private HistoricoService historicoService;
+	
 	public List<Produto> buscarTodos(){
 		return produtoRepo.findAll();
 	}
@@ -30,13 +35,33 @@ public class ProdutoService {
 		return produto.orElseThrow(()-> new ResourceNotFoundException("Produto não foi encontrado. ID informado: "+id));
 	}
 	
-	public Produto salvaProduto(ProdutoInsertDTO objtDto) {		
-		if(!verificaCadastro(objtDto.getNome())) {
-			Secao secao =secaoService.buscarPorId(objtDto.getSecao_id());
-			Produto produto = new Produto(null, objtDto.getNome(), objtDto.getCategoria(), secao);
+	public Produto salvaProduto(ProdutoInsertDTO objDto) {		
+		if(!verificaCadastro(objDto.getNome())) {
+			Secao secao =secaoService.buscarPorId(objDto.getSecao_id());
+			Produto produto = new Produto(null, objDto.getNome(), objDto.getCategoria(), secao);			
 			return produtoRepo.save(produto);
 		}
 		return null;
+	}
+
+	@Transactional
+	public Produto cadastrarProduto(ProdutoInsertDTO objDto) {
+
+		objDto.setVolume(0.0);
+		Secao secao = secaoService.buscarPorId(objDto.getSecao_id());
+		if(secao.verificaEspacoDisponivel(objDto.getVolume())) {
+			Produto produto = produtoRepo.save((new Produto(null, objDto.getNome(), objDto.getCategoria(), secao)));
+			Historico historico = historicoService.salvaHistorico(new Historico(null, objDto.getResponsavel(), objDto.getHorario(), objDto.getVolume(), secao, produto, "Produto Cadastrado"));
+			secao.addHistorico(historico);
+			secao.addProduto(produto);
+			secao.addVolume(historico.getVolume());
+			produto.addHistorico(historico);
+			secaoService.salvarSecao(secao);
+			return produtoRepo.save(produto);		
+			
+		}
+		return null;
+
 	}
 	private boolean verificaCadastro(String nome) {		
 		Produto p = produtoRepo.findByNome(nome);		

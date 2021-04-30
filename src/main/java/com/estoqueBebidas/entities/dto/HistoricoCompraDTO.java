@@ -3,7 +3,7 @@ package com.estoqueBebidas.entities.dto;
 import java.io.Serializable;
 import java.time.Instant;
 
-public class HistoricoInsertDTO implements Serializable {
+public class HistoricoCompraDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
@@ -12,12 +12,13 @@ public class HistoricoInsertDTO implements Serializable {
 	private Double volume;
 	private Integer secao_id;
 	private Integer produto_id;
+	private String movimentacao;
 	
-	public HistoricoInsertDTO() {
+	public HistoricoCompraDTO() {
 		
 	}
 
-	public HistoricoInsertDTO(Integer id, String responsavel, Double volume, Integer secao_id,
+	public HistoricoCompraDTO(Integer id, String responsavel, Double volume, Integer secao_id,
 			Integer produto_id) {
 		super();
 		this.id = id;
@@ -73,6 +74,14 @@ public class HistoricoInsertDTO implements Serializable {
 
 	public void setProduto_id(Integer produto_id) {
 		this.produto_id = produto_id;
+	}
+
+	public String getMovimentacao() {
+		return movimentacao;
+	}
+
+	public void setMovimentacao(String movimentacao) {
+		this.movimentacao = movimentacao;
 	}
 		
 }

@@ -20,6 +20,7 @@ public class Historico implements Serializable {
 	private String responsavel; 
 	private Instant horario;
 	private Double volume;
+	private String operacao;
 	
 	@ManyToOne
 	@JoinColumn(name = "secao_id")
@@ -33,14 +34,15 @@ public class Historico implements Serializable {
 		
 	}
 
-	public Historico(Integer id, String responsavel, Instant horario, Double volume,Secao secao, Produto produto) {
+	public Historico(Integer id, String responsavel, Instant horario, Double volume,Secao secao, Produto produto,String operacao) {
 		super();
 		this.id = id;
 		this.responsavel = responsavel;
 		this.horario = horario;
 		this.volume = volume;
 		this.secao = secao;
-		this.setProduto(produto);
+		this.produto =produto;
+		this.operacao = operacao;
 	}
 
 	public Integer getId() {
@@ -89,6 +91,14 @@ public class Historico implements Serializable {
 	public void setProduto(Produto produto) {
 		this.produto = produto;
 	}	
+
+	public String getOperacao() {
+		return operacao;
+	}
+
+	public void setOperacao(String operacao) {
+		this.operacao = operacao;
+	}
 
 	@Override
 	public int hashCode() {
