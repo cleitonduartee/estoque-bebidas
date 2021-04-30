@@ -6,4 +6,5 @@ import com.estoqueBebidas.entities.Produto;
 
 public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
 
+	Produto findByNome(String nome);
 }

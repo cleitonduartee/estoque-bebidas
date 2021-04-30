@@ -14,6 +14,8 @@ import com.estoqueBebidas.entities.enuns.Categoria;
 import com.estoqueBebidas.repository.HistoricoRepository;
 import com.estoqueBebidas.repository.ProdutoRepository;
 import com.estoqueBebidas.repository.SecaoRepository;
+import com.estoqueBebidas.service.HistoricoService;
+import com.estoqueBebidas.service.ProdutoService;
 
 @Configuration
 public class PopulaBancoH2 implements CommandLineRunner {
@@ -27,6 +29,12 @@ public class PopulaBancoH2 implements CommandLineRunner {
 	@Autowired
 	private ProdutoRepository produtoRepo;
 	
+	@Autowired
+	private HistoricoService historicoService;
+	
+	@Autowired
+	private ProdutoService produtoService;
+	
 	@Override
 	public void run(String... args) throws Exception {
 	
@@ -38,21 +46,19 @@ public class PopulaBancoH2 implements CommandLineRunner {
 		
 		secaoRepo.saveAll(Arrays.asList(s1,s2,s3,s4,s5));
 		
-		Produto p1 = new Produto(null,"Itaipava",Categoria.ALCOOLICA,s1);
-		Produto p2 = new Produto(null,"Bohemia",Categoria.ALCOOLICA,s1);
-		Produto p3 = new Produto(null,"Suco de Laranja",Categoria.NAOALCOOLICA,s2);
-		Produto p4 = new Produto(null,"Suco de Uva",Categoria.NAOALCOOLICA,s2);
-		Produto p5 = new Produto(null,"Suco de Abacaxi",Categoria.NAOALCOOLICA,s2);
-		Produto p6 = new Produto(null,"Coca-Cola",Categoria.NAOALCOOLICA,s3);
-		Produto p7 = new Produto(null,"Fanta",Categoria.NAOALCOOLICA,s3);
-		Produto p8 = new Produto(null,"Vinho Suave ",Categoria.ALCOOLICA,s4);
-		Produto p9 = new Produto(null,"Vinho Branco",Categoria.ALCOOLICA,s4);
-		Produto p10 = new Produto(null,"Red Bull",Categoria.NAOALCOOLICA,s5);
-		Produto p11 = new Produto(null,"Monster",Categoria.NAOALCOOLICA,s5);
-		Produto p12 = new Produto(null,"Fusion",Categoria.NAOALCOOLICA,s5);
-		
-		produtoRepo.saveAll(Arrays.asList(p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12));
-		
+		Produto p1 = produtoService.salvaProduto( new Produto(null,"Itaipava",Categoria.ALCOOLICA,s1));
+		Produto p2 = produtoService.salvaProduto( new Produto(null,"Bohemia",Categoria.ALCOOLICA,s1));
+		Produto p3 = produtoService.salvaProduto(new Produto(null,"Suco de Laranja",Categoria.NAOALCOOLICA,s2));
+		Produto p4 = produtoService.salvaProduto(new Produto(null,"Suco de Uva",Categoria.NAOALCOOLICA,s2));
+		Produto p5 = produtoService.salvaProduto(new Produto(null,"Suco de Abacaxi",Categoria.NAOALCOOLICA,s2));
+		Produto p6 = produtoService.salvaProduto(new Produto(null,"Coca-Cola",Categoria.NAOALCOOLICA,s3));
+		Produto p7 = produtoService.salvaProduto(new Produto(null,"Fanta",Categoria.NAOALCOOLICA,s3));
+		Produto p8 = produtoService.salvaProduto(new Produto(null,"Vinho Suave ",Categoria.ALCOOLICA,s4));
+		Produto p9 = produtoService.salvaProduto(new Produto(null,"Vinho Branco",Categoria.ALCOOLICA,s4));
+		Produto p10 = produtoService.salvaProduto(new Produto(null,"Red Bull",Categoria.NAOALCOOLICA,s5));
+		Produto p11 = produtoService.salvaProduto(new Produto(null,"Monster",Categoria.NAOALCOOLICA,s5));
+		Produto p12 = produtoService.salvaProduto(new Produto(null,"Fusion",Categoria.NAOALCOOLICA,s5));
+				
 		Historico h1 = new Historico(null, "José de Jesus", Instant.now(), 70.0, s5, p12);
 		Historico h2 = new Historico(null, "Pedro Henrique", Instant.now(), 170.0, s5, p10);
 		Historico h3 = new Historico(null, "Cleiton Duarte", Instant.now(), 95.0, s1, p1);

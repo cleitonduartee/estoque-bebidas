@@ -21,11 +21,11 @@ public class HistoricoService {
 	
 	public Historico salvaHistorico(Historico historico) {
 		Optional<Secao> secao = secaoRepo.findById(historico.getSecao().getId());
-		
-		if(secao.get().verificaEspacoDisponivel(historico.getVolume())) {
-			historico = historicoRepo.save(historico);
-			secao.get().addHistorico(historico);
-			secaoRepo.save(secao.get());
+		Secao secao1 = secao.get();
+		if(secao1.verificaEspacoDisponivel(historico.getVolume())) {
+			historico = historicoRepo.save(historico);			
+			secao1.addHistorico(historico);
+			secaoRepo.save(secao1);
 		}
 		return historico;
 	}
