@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.estoqueBebidas.entities.Secao;
 import com.estoqueBebidas.repository.SecaoRepository;
+import com.estoqueBebidas.service.exception.ResourceNotFoundException;
 
 @Service
 public class SecaoService {
@@ -19,6 +20,6 @@ public class SecaoService {
 	}
 	public Secao buscarPorId(Integer id) {
 		Optional<Secao> secao = secaoRepo.findById(id);
-		return secao.orElse(null);
+		return secao.orElseThrow(()-> new ResourceNotFoundException("Secão não foi encontrado. ID informado: "+id));
 	}
 }

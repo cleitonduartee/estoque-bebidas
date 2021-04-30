@@ -12,6 +12,7 @@ import com.estoqueBebidas.entities.Produto;
 import com.estoqueBebidas.entities.Secao;
 import com.estoqueBebidas.entities.dto.HistoricoInsertDTO;
 import com.estoqueBebidas.repository.HistoricoRepository;
+import com.estoqueBebidas.service.exception.ResourceNotFoundException;
 	
 @Service
 public class HistoricoService {
@@ -30,7 +31,7 @@ public class HistoricoService {
 	}
 	public Historico buscarPorId(Integer id) {
 		Optional<Historico> historico = historicoRepo.findById(id);
-		return historico.orElse(null);
+		return historico.orElseThrow(()-> new ResourceNotFoundException("Historico não foi encontrado. ID informado: "+id));
 	}
 	
 	@Transactional

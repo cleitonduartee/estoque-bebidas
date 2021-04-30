@@ -10,6 +10,7 @@ import com.estoqueBebidas.entities.Produto;
 import com.estoqueBebidas.entities.Secao;
 import com.estoqueBebidas.entities.dto.ProdutoInsertDTO;
 import com.estoqueBebidas.repository.ProdutoRepository;
+import com.estoqueBebidas.service.exception.ResourceNotFoundException;
 
 @Service
 public class ProdutoService {
@@ -26,7 +27,7 @@ public class ProdutoService {
 	
 	public Produto buscarPorId(Integer id) {
 		Optional<Produto> produto = produtoRepo.findById(id);
-		return produto.orElse(null);
+		return produto.orElseThrow(()-> new ResourceNotFoundException("Produto não foi encontrado. ID informado: "+id));
 	}
 	
 	public Produto salvaProduto(ProdutoInsertDTO objtDto) {		
