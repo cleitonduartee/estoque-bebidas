@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,13 @@ public class HistoricoResource {
 	
 	@Autowired
 	private HistoricoService historicoService;
+	
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<HistoricoOutDTO> buscarPorId(@PathVariable Integer id){
+		Historico historico = historicoService.buscarPorId(id);
+		HistoricoOutDTO objDto = new HistoricoOutDTO(historico);
+		return ResponseEntity.ok().body(objDto);
+	}
 	
 	@GetMapping
 	public ResponseEntity<List<HistoricoOutDTO>> buscarTodos(){
