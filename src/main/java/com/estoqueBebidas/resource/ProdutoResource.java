@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.estoqueBebidas.entities.Produto;
-import com.estoqueBebidas.entities.dto.ProdutoCadastraDTO;
 import com.estoqueBebidas.entities.dto.ProdutoInsertDTO;
 import com.estoqueBebidas.entities.dto.ProdutoOutDTO;
 import com.estoqueBebidas.service.ProdutoService;
