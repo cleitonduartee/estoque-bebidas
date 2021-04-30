@@ -89,6 +89,9 @@ public class Secao implements Serializable {
 	public void addProduto(Produto produto) {
 		produtos.add(produto);
 	}
+	public void addVolume(Double volume) {
+		totalArmazenado += volume;
+	}
 
 	@Override
 	public int hashCode() {
