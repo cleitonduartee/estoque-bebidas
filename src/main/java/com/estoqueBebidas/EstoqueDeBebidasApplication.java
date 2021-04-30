@@ -8,6 +8,7 @@ public class EstoqueDeBebidasApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(EstoqueDeBebidasApplication.class, args);
+		
 	}
 
 }
