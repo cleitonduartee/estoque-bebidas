@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import com.estoqueBebidas.entities.enuns.Categoria;
 
@@ -19,14 +21,19 @@ public class Produto implements Serializable {
 	private String nome;
 	private Integer categoria;
 	
+	@ManyToOne
+	@JoinColumn(name = "secao_id")
+	private Secao secao;
+	
 	public Produto() {		
 	}
 
-	public Produto(Integer id, String nome, Categoria categoria) {
+	public Produto(Integer id, String nome, Categoria categoria,Secao secao) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.categoria = categoria != null ? categoria.getCod():null;
+		this.setSecao(secao);
 	}	
 
 	public Integer getId() {
@@ -53,6 +60,14 @@ public class Produto implements Serializable {
 		this.categoria = categoria.getCod();
 	}
 
+	public Secao getSecao() {
+		return secao;
+	}
+
+	public void setSecao(Secao secao) {
+		this.secao = secao;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -86,7 +101,5 @@ public class Produto implements Serializable {
 			return false;
 		return true;
 	}
-	
-
 	
 }

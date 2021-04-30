@@ -26,6 +26,8 @@ public class Secao implements Serializable {
 	private Integer categoria;
 	@OneToMany(mappedBy = "secao")
 	private List<Historico> historicos = new ArrayList<>();
+	@OneToMany(mappedBy = "secao")
+	private List<Produto> produtos = new ArrayList<>();
 	
 	public Secao() {
 		
@@ -83,6 +85,9 @@ public class Secao implements Serializable {
 	}
 	public void addHistorico(Historico historico) {
 		historicos.add(historico);
+	}
+	public void addProduto(Produto produto) {
+		produtos.add(produto);
 	}
 
 	@Override
