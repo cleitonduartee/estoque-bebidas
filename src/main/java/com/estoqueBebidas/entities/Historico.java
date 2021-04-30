@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.estoqueBebidas.entities.enuns.Operacao;
+
 @Entity
 public class Historico implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -20,7 +22,7 @@ public class Historico implements Serializable {
 	private String responsavel; 
 	private Instant horario;
 	private Double volume;
-	private String operacao;
+	private Integer operacao;
 	
 	@ManyToOne
 	@JoinColumn(name = "secao_id")
@@ -34,7 +36,7 @@ public class Historico implements Serializable {
 		
 	}
 
-	public Historico(Integer id, String responsavel, Instant horario, Double volume,Secao secao, Produto produto,String operacao) {
+	public Historico(Integer id, String responsavel, Instant horario, Double volume,Secao secao, Produto produto,Operacao operacao) {
 		super();
 		this.id = id;
 		this.responsavel = responsavel;
@@ -42,7 +44,7 @@ public class Historico implements Serializable {
 		this.volume = volume;
 		this.secao = secao;
 		this.produto =produto;
-		this.operacao = operacao;
+		this.operacao = operacao != null ? operacao.getCod() : null;
 	}
 
 	public Integer getId() {
@@ -92,12 +94,12 @@ public class Historico implements Serializable {
 		this.produto = produto;
 	}	
 
-	public String getOperacao() {
-		return operacao;
+	public Operacao getOperacao() {
+		return Operacao.convertOperacao(operacao);
 	}
 
-	public void setOperacao(String operacao) {
-		this.operacao = operacao;
+	public void setOperacao(Operacao operacao) {
+		this.operacao = operacao.getCod();
 	}
 
 	@Override

@@ -11,6 +11,7 @@ import com.estoqueBebidas.entities.Historico;
 import com.estoqueBebidas.entities.Produto;
 import com.estoqueBebidas.entities.Secao;
 import com.estoqueBebidas.entities.dto.ProdutoInsertDTO;
+import com.estoqueBebidas.entities.enuns.Operacao;
 import com.estoqueBebidas.repository.ProdutoRepository;
 import com.estoqueBebidas.service.exception.ResourceNotFoundException;
 
@@ -51,7 +52,7 @@ public class ProdutoService {
 		Secao secao = secaoService.buscarPorId(objDto.getSecao_id());
 		if(secao.verificaEspacoDisponivel(objDto.getVolume())) {
 			Produto produto = produtoRepo.save((new Produto(null, objDto.getNome(), objDto.getCategoria(), secao)));
-			Historico historico = historicoService.salvaHistorico(new Historico(null, objDto.getResponsavel(), objDto.getHorario(), objDto.getVolume(), secao, produto, "Produto Cadastrado"));
+			Historico historico = historicoService.salvaHistorico(new Historico(null, objDto.getResponsavel(), objDto.getHorario(), objDto.getVolume(), secao, produto, Operacao.CADASTRO));
 			secao.addHistorico(historico);
 			secao.addProduto(produto);
 			secao.addVolume(historico.getVolume());
