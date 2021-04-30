@@ -6,7 +6,7 @@ import java.time.Instant;
 public class ProdutoEntradaSaidaDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private Integer id;	
+	private Integer produto_id;	
 	private String responsavel; 
 	private Instant horario = Instant.now();		
 	private Integer secao_id;
@@ -16,20 +16,20 @@ public class ProdutoEntradaSaidaDTO implements Serializable {
 		
 	}
 
-	public ProdutoEntradaSaidaDTO(Integer id,Integer secao_id,String responsavel,Double volume) {
+	public ProdutoEntradaSaidaDTO(Integer produto_id,Integer secao_id,String responsavel,Double volume) {
 		super();
-		this.id = id;		
+		this.produto_id = produto_id;		
 		this.secao_id = secao_id;
 		this.setResponsavel(responsavel);
 		this.setVolume(volume);
 	}
 
-	public Integer getId() {
-		return id;
+	public Integer getProduto_id() {
+		return produto_id;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setProduto_id(Integer produto_id) {
+		this.produto_id = produto_id;
 	}	
 
 	public Integer getSecao_id() {
