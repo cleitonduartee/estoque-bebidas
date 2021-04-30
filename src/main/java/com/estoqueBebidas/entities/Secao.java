@@ -21,7 +21,7 @@ public class Secao implements Serializable {
 	private Integer id;
 	private String nome;
 	private Double capacidade;
-	private Double totalArmazenado;
+	private Double totalArmazenado = 0.0;
 	
 	private Integer categoria;
 	@OneToMany(mappedBy = "secao")
