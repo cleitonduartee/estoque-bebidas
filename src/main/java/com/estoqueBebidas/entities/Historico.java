@@ -25,17 +25,22 @@ public class Historico implements Serializable {
 	@JoinColumn(name = "secao_id")
 	private Secao secao;
 	
+	@ManyToOne
+	@JoinColumn(name = "produto_id")
+	private Produto produto;
+	
 	public Historico() {
 		
 	}
 
-	public Historico(Integer id, String responsavel, Instant horario, Double volume,Secao secao) {
+	public Historico(Integer id, String responsavel, Instant horario, Double volume,Secao secao, Produto produto) {
 		super();
 		this.id = id;
 		this.responsavel = responsavel;
 		this.horario = horario;
 		this.volume = volume;
-		this.setSecao(secao);
+		this.secao = secao;
+		this.setProduto(produto);
 	}
 
 	public Integer getId() {
@@ -77,6 +82,14 @@ public class Historico implements Serializable {
 		this.secao = secao;
 	}
 
+	public Produto getProduto() {
+		return produto;
+	}
+
+	public void setProduto(Produto produto) {
+		this.produto = produto;
+	}	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -100,5 +113,6 @@ public class Historico implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}	
+	}
+
 }

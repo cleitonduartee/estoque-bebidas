@@ -1,6 +1,8 @@
 package com.estoqueBebidas.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.estoqueBebidas.entities.enuns.Categoria;
 
@@ -24,6 +27,9 @@ public class Produto implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "secao_id")
 	private Secao secao;
+	
+	@OneToMany(mappedBy = "produto")
+	List<Historico>historicos = new ArrayList<>();
 	
 	public Produto() {		
 	}
@@ -66,6 +72,9 @@ public class Produto implements Serializable {
 
 	public void setSecao(Secao secao) {
 		this.secao = secao;
+	}
+	public void addHistorico(Historico historico) {
+		historicos.add(historico);
 	}
 	
 	@Override
