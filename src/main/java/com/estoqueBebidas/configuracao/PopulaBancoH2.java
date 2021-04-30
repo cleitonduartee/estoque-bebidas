@@ -16,16 +16,14 @@ import com.estoqueBebidas.repository.ProdutoRepository;
 import com.estoqueBebidas.repository.SecaoRepository;
 import com.estoqueBebidas.service.HistoricoService;
 import com.estoqueBebidas.service.ProdutoService;
+import com.estoqueBebidas.service.SecaoService;
 
 @Configuration
 public class PopulaBancoH2 implements CommandLineRunner {
 
 	@Autowired
 	private HistoricoRepository historicoRepo;
-	
-	@Autowired
-	private SecaoRepository secaoRepo;
-	
+		
 	@Autowired
 	private ProdutoRepository produtoRepo;
 	
@@ -35,17 +33,18 @@ public class PopulaBancoH2 implements CommandLineRunner {
 	@Autowired
 	private ProdutoService produtoService;
 	
+	@Autowired
+	private SecaoService secaoService;
+	
 	@Override
 	public void run(String... args) throws Exception {
 	
-		Secao s1 = new Secao(null, "Cervejas", Categoria.ALCOOLICA);
-		Secao s2 = new Secao(null, "Sucos", Categoria.NAOALCOOLICA);
-		Secao s3 = new Secao(null, "Refirgerantes", Categoria.NAOALCOOLICA);
-		Secao s4 = new Secao(null, "Vinhos", Categoria.ALCOOLICA);
-		Secao s5 = new Secao(null, "Energeticos", Categoria.NAOALCOOLICA);
-		
-		secaoRepo.saveAll(Arrays.asList(s1,s2,s3,s4,s5));
-		
+		Secao s1 = secaoService.salvarSecao(new Secao(null, "Cervejas", Categoria.ALCOOLICA));
+		Secao s2 = secaoService.salvarSecao(new Secao(null, "Sucos", Categoria.NAOALCOOLICA));
+		Secao s3 = secaoService.salvarSecao(new Secao(null, "Refirgerantes", Categoria.NAOALCOOLICA));
+		Secao s4 = secaoService.salvarSecao(new Secao(null, "Vinhos", Categoria.ALCOOLICA));
+		Secao s5 = secaoService.salvarSecao(new Secao(null, "Energeticos", Categoria.NAOALCOOLICA));
+				
 		Produto p1 = produtoService.salvaProduto( new Produto(null,"Itaipava",Categoria.ALCOOLICA,s1));
 		Produto p2 = produtoService.salvaProduto( new Produto(null,"Bohemia",Categoria.ALCOOLICA,s1));
 		Produto p3 = produtoService.salvaProduto(new Produto(null,"Suco de Laranja",Categoria.NAOALCOOLICA,s2));
@@ -92,7 +91,11 @@ public class PopulaBancoH2 implements CommandLineRunner {
 		s5.addProduto(p11);
 		s5.addProduto(p12);
 		
-		secaoRepo.saveAll(Arrays.asList(s1,s2,s3,s4,s5));
+		secaoService.salvarSecao(s1);
+		secaoService.salvarSecao(s2);
+		secaoService.salvarSecao(s3);
+		secaoService.salvarSecao(s4);
+		secaoService.salvarSecao(s5);
 		
 	}
 
