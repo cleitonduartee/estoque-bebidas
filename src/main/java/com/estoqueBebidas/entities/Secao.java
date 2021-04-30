@@ -1,11 +1,14 @@
 package com.estoqueBebidas.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import com.estoqueBebidas.entities.enuns.Categoria;
 
@@ -21,6 +24,8 @@ public class Secao implements Serializable {
 	private Double totalArmazenado;
 	
 	private Integer categoria;
+	@OneToMany(mappedBy = "secao")
+	private List<Historico> historicos = new ArrayList<>();
 	
 	public Secao() {
 		
@@ -75,6 +80,9 @@ public class Secao implements Serializable {
 	}
 	private void informaCapacidade() {
 		capacidade = getCategoria().getLimit();
+	}
+	public void addHistorico(Historico historico) {
+		historicos.add(historico);
 	}
 
 	@Override

@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Historico implements Serializable {
@@ -19,16 +21,21 @@ public class Historico implements Serializable {
 	private Instant horario;
 	private Double volume;
 	
+	@ManyToOne
+	@JoinColumn(name = "secao_id")
+	private Secao secao;
+	
 	public Historico() {
 		
 	}
 
-	public Historico(Integer id, String responsavel, Instant horario, Double volume) {
+	public Historico(Integer id, String responsavel, Instant horario, Double volume,Secao secao) {
 		super();
 		this.id = id;
 		this.responsavel = responsavel;
 		this.horario = horario;
 		this.volume = volume;
+		this.setSecao(secao);
 	}
 
 	public Integer getId() {
@@ -62,6 +69,13 @@ public class Historico implements Serializable {
 	public void setVolume(Double volume) {
 		this.volume = volume;
 	}
+	public Secao getSecao() {
+		return secao;
+	}
+
+	public void setSecao(Secao secao) {
+		this.secao = secao;
+	}
 
 	@Override
 	public int hashCode() {
@@ -86,6 +100,5 @@ public class Historico implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
-	
+	}	
 }
