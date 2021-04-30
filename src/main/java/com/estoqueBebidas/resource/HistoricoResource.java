@@ -35,10 +35,4 @@ public class HistoricoResource {
 		return ResponseEntity.ok().body(listDto);
 	}
 
-//	@PostMapping()
-//	public ResponseEntity<Void> salvarProduto(@RequestBody HistoricoCompraDTO objDto){
-//		Historico historico = historicoService.salvaHistorico(objDto);
-//		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(historico.getId()).toUri();
-//		return ResponseEntity.created(uri).build();
-//	}
 }
