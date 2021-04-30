@@ -1,5 +1,6 @@
 package com.estoqueBebidas.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,10 @@ public class ProdutoService {
 	
 	@Autowired
 	private SecaoService secaoService;
+	
+	public List<Produto> buscarTodos(){
+		return produtoRepo.findAll();
+	}
 	
 	public Produto buscarPorId(Integer id) {
 		Optional<Produto> produto = produtoRepo.findById(id);
