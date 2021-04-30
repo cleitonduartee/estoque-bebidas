@@ -8,7 +8,7 @@ public class HistoricoInsertDTO implements Serializable {
 	
 	private Integer id;
 	private String responsavel; 
-	private Instant horario;
+	private Instant horario = Instant.now();
 	private Double volume;
 	private Integer secao_id;
 	private Integer produto_id;
@@ -17,12 +17,11 @@ public class HistoricoInsertDTO implements Serializable {
 		
 	}
 
-	public HistoricoInsertDTO(Integer id, String responsavel, Instant horario, Double volume, Integer secao_id,
+	public HistoricoInsertDTO(Integer id, String responsavel, Double volume, Integer secao_id,
 			Integer produto_id) {
 		super();
 		this.id = id;
-		this.responsavel = responsavel;
-		this.horario = horario;
+		this.responsavel = responsavel;		
 		this.volume = volume;
 		this.secao_id = secao_id;
 		this.produto_id = produto_id;

@@ -1,7 +1,5 @@
 package com.estoqueBebidas.configuracao;
 
-import java.time.Instant;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -48,14 +46,14 @@ public class PopulaBancoH2 implements CommandLineRunner {
 		produtoService.salvaProduto(new ProdutoInsertDTO(null,"Monster",Categoria.NAOALCOOLICA,5));
 		produtoService.salvaProduto(new ProdutoInsertDTO(null,"Fusion",Categoria.NAOALCOOLICA,5));
 				
-		historicoService.salvaHistorico(new HistoricoInsertDTO(null, "José de Jesus", Instant.now(), 70.0, 5, 12));
-		historicoService.salvaHistorico(new HistoricoInsertDTO(null, "Pedro Henrique", Instant.now(), 170.0, 5, 10));
-		historicoService.salvaHistorico(new HistoricoInsertDTO(null, "Cleiton Duarte", Instant.now(), 95.0, 1, 1));
-		historicoService.salvaHistorico(new HistoricoInsertDTO(null, "Mario Cesar", Instant.now(), 86.0, 1, 2));
-		historicoService.salvaHistorico(new HistoricoInsertDTO(null, "Beatriz da Silva", Instant.now(), 59.0, 4, 8));
-		historicoService.salvaHistorico(new HistoricoInsertDTO(null, "Carlos Goncalves", Instant.now(), 98.0, 4, 9));
-		historicoService.salvaHistorico(new HistoricoInsertDTO(null, "Stephany Perreira", Instant.now(), 117.0, 3, 6));
-		historicoService.salvaHistorico(new HistoricoInsertDTO(null, "Maria Auxiliadora", Instant.now(), 273.0, 2, 4));
+		historicoService.salvaHistorico(new HistoricoInsertDTO(null, "José de Jesus",  70.0, 5, 12));
+		historicoService.salvaHistorico(new HistoricoInsertDTO(null, "Pedro Henrique",  170.0, 5, 10));
+		historicoService.salvaHistorico(new HistoricoInsertDTO(null, "Cleiton Duarte",  95.0, 1, 1));
+		historicoService.salvaHistorico(new HistoricoInsertDTO(null, "Mario Cesar",  86.0, 1, 2));
+		historicoService.salvaHistorico(new HistoricoInsertDTO(null, "Beatriz da Silva",  59.0, 4, 8));
+		historicoService.salvaHistorico(new HistoricoInsertDTO(null, "Carlos Goncalves",  98.0, 4, 9));
+		historicoService.salvaHistorico(new HistoricoInsertDTO(null, "Stephany Perreira", 117.0, 3, 6));
+		historicoService.salvaHistorico(new HistoricoInsertDTO(null, "Maria Auxiliadora", 273.0, 2, 4));
 	
 		
 	}
