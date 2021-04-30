@@ -16,6 +16,7 @@ import com.estoqueBebidas.entities.dto.ProdutoInsertDTO;
 import com.estoqueBebidas.entities.enuns.Operacao;
 import com.estoqueBebidas.repository.ProdutoRepository;
 import com.estoqueBebidas.service.exception.LimitSecaoException;
+import com.estoqueBebidas.service.exception.ProductAlreadyRegisteredtException;
 import com.estoqueBebidas.service.exception.ResourceNotFoundException;
 
 @Service
@@ -52,7 +53,7 @@ public class ProdutoService {
 
 			}
 			if (!produtoNaoCadastrado(objDto.getNome())) {
-				throw new IllegalArgumentException("Produto já cadastrado no estoque. Nome: " + objDto.getNome());
+				throw new ProductAlreadyRegisteredtException("Produto já cadastrado no banco de dados. Nome: " + objDto.getNome());
 			}
 			Produto produto = produtoRepo.save((new Produto(null, objDto.getNome(), objDto.getCategoria(), secao)));
 			Historico historico = historicoService.salvaHistorico(new Historico(null, objDto.getResponsavel(),
