@@ -86,9 +86,19 @@ public class Secao implements Serializable {
 	public void addHistorico(Historico historico) {
 		historicos.add(historico);
 	}
+	
+	public List<Historico> getHistoricos() {
+		return historicos;
+	}
+
 	public void addProduto(Produto produto) {
 		produtos.add(produto);
 	}
+	
+	public List<Produto> getProdutos() {
+		return produtos;
+	}
+
 	public void addVolume(Double volume) {
 		totalArmazenado += volume;
 	}

@@ -1,5 +1,7 @@
 package com.estoqueBebidas.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,5 +16,9 @@ public class SecaoService {
 	
 	public Secao salvarSecao(Secao secao) {
 		return secaoRepo.save(secao);
+	}
+	public Secao buscarPorId(Integer id) {
+		Optional<Secao> secao = secaoRepo.findById(id);
+		return secao.orElse(null);
 	}
 }

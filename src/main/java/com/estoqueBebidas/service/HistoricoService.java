@@ -23,9 +23,10 @@ public class HistoricoService {
 		Optional<Secao> secao = secaoRepo.findById(historico.getSecao().getId());
 		Secao secao1 = secao.get();
 		if(secao1.verificaEspacoDisponivel(historico.getVolume())) {
-			historico = historicoRepo.save(historico);			
-			secao1.addHistorico(historico);
-			secaoRepo.save(secao1);
+			historico = historicoRepo.save(historico);	
+			//System.out.println(secao1.getHistoricos());
+//			secao1.addHistorico(historico);
+//			secaoRepo.save(secao1);
 		}
 		return historico;
 	}

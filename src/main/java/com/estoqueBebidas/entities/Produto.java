@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.estoqueBebidas.entities.dto.ProdutoInsertDTO;
 import com.estoqueBebidas.entities.enuns.Categoria;
 
 @Entity
@@ -29,7 +30,7 @@ public class Produto implements Serializable {
 	private Secao secao;
 	
 	@OneToMany(mappedBy = "produto")
-	List<Historico>historicos = new ArrayList<>();
+	private List<Historico>historicos = new ArrayList<>();
 	
 	public Produto() {		
 	}
@@ -41,7 +42,7 @@ public class Produto implements Serializable {
 		this.categoria = categoria != null ? categoria.getCod():null;
 		this.setSecao(secao);
 	}	
-
+	
 	public Integer getId() {
 		return id;
 	}
