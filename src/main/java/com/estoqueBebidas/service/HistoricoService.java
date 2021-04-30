@@ -1,14 +1,14 @@
 package com.estoqueBebidas.service;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.estoqueBebidas.entities.Historico;
+import com.estoqueBebidas.entities.Produto;
 import com.estoqueBebidas.entities.Secao;
+import com.estoqueBebidas.entities.dto.HistoricoInsertDTO;
 import com.estoqueBebidas.repository.HistoricoRepository;
-import com.estoqueBebidas.repository.SecaoRepository;
 	
 @Service
 public class HistoricoService {
@@ -17,18 +17,24 @@ public class HistoricoService {
 	private HistoricoRepository historicoRepo;
 	
 	@Autowired
-	private SecaoRepository secaoRepo;
+	private SecaoService secaoService;
 	
-	public Historico salvaHistorico(Historico historico) {
-		Optional<Secao> secao = secaoRepo.findById(historico.getSecao().getId());
-		Secao secao1 = secao.get();
-		if(secao1.verificaEspacoDisponivel(historico.getVolume())) {
-			historico = historicoRepo.save(historico);	
-			//System.out.println(secao1.getHistoricos());
-//			secao1.addHistorico(historico);
-//			secaoRepo.save(secao1);
+	@Autowired
+	private ProdutoService produtoService;
+	
+	@Transactional
+	public Historico salvaHistorico(HistoricoInsertDTO objDto) {
+		Secao secao = secaoService.buscarPorId(objDto.getSecao_id());
+		
+		if(secao.verificaEspacoDisponivel(objDto.getVolume())) {
+			Produto produto = produtoService.buscarPorId(objDto.getProduto_id());			
+			Historico historico =historicoRepo.save(new Historico(null, objDto.getResponsavel(), objDto.getHorario(), objDto.getVolume(), secao, produto));							
+			secao.addHistorico(historico);
+			secao.addProduto(produto);
+			secaoService.salvarSecao(secao);
+			return historico;
 		}
-		return historico;
+		return null;
 	}
 	
 }

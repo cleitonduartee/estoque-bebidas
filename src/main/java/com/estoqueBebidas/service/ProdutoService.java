@@ -1,5 +1,7 @@
 package com.estoqueBebidas.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,11 @@ public class ProdutoService {
 	
 	@Autowired
 	private SecaoService secaoService;
+	
+	public Produto buscarPorId(Integer id) {
+		Optional<Produto> produto = produtoRepo.findById(id);
+		return produto.orElse(null);
+	}
 	
 	public Produto salvaProduto(ProdutoInsertDTO objtDto) {		
 		if(!verificaCadastro(objtDto.getNome())) {

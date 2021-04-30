@@ -24,8 +24,10 @@ public class Secao implements Serializable {
 	private Double totalArmazenado = 0.0;
 	
 	private Integer categoria;
+	
 	@OneToMany(mappedBy = "secao")
 	private List<Historico> historicos = new ArrayList<>();
+	
 	@OneToMany(mappedBy = "secao")
 	private List<Produto> produtos = new ArrayList<>();
 	
