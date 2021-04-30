@@ -31,6 +31,7 @@ public class HistoricoService {
 			Historico historico =historicoRepo.save(new Historico(null, objDto.getResponsavel(), objDto.getHorario(), objDto.getVolume(), secao, produto));							
 			secao.addHistorico(historico);
 			secao.addProduto(produto);
+			secao.addVolume(historico.getVolume());
 			secaoService.salvarSecao(secao);
 			return historico;
 		}
