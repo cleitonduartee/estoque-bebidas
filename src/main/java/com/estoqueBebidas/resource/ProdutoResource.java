@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -39,6 +40,24 @@ public class ProdutoResource {
 		List<Produto> list = produtoService.buscarTodos();
 		List<ProdutoOutDTO> listDto = list.stream().map(x -> new ProdutoOutDTO(x)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDto);
+	}
+
+	@GetMapping(value = "/findByCategoria")
+	public ResponseEntity<List<ProdutoOutDTO>> buscarPorCategoria(@RequestParam(value = "categoria") String categoria) {
+
+		List<Produto> list = produtoService.buscarPorCategoria(categoria);
+		List<ProdutoOutDTO> listDto = list.stream().map(x -> new ProdutoOutDTO(x)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDto);
+
+	}
+	@GetMapping(value = "/findByNome")
+	public ResponseEntity<ProdutoOutDTO> buscarPorNome(
+			@RequestParam(value = "nome") String nome){		
+		
+		Produto produto = produtoService.buscarPorNome(nome);
+		ProdutoOutDTO produtoDto = new ProdutoOutDTO(produto);
+		return ResponseEntity.ok().body(produtoDto);
+		
 	}
 	
 	@PostMapping(value="/cadastrar")

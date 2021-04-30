@@ -7,12 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.MissingServletRequestParameterException;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import com.estoqueBebidas.entities.Historico;
 import com.estoqueBebidas.entities.Produto;
 import com.estoqueBebidas.entities.Secao;
 import com.estoqueBebidas.entities.dto.ProdutoEntradaSaidaDTO;
 import com.estoqueBebidas.entities.dto.ProdutoInsertDTO;
+import com.estoqueBebidas.entities.enuns.Categoria;
 import com.estoqueBebidas.entities.enuns.Operacao;
 import com.estoqueBebidas.repository.ProdutoRepository;
 import com.estoqueBebidas.service.exception.LimitSecaoException;
@@ -41,6 +44,29 @@ public class ProdutoService {
 				.orElseThrow(() -> new ResourceNotFoundException("Produto não foi encontrado. ID informado: " + id));
 	}
 
+	public List<Produto> buscarPorCategoria(String categoria) {
+		try {
+			Categoria convertCategoria = Categoria.valueOf(categoria);
+			return produtoRepo.findByCategoria(convertCategoria.getCod());
+
+		} catch (IllegalArgumentException e) {
+			throw new ResourceNotFoundException(
+					"Parmetro informado na busca do produto não foi encontrado. CATEGORIA: " + categoria);
+		}
+
+	}
+
+	public Produto buscarPorNome(String nome) {
+
+		Produto produto = produtoRepo.findByNome(nome);
+		if (produto == null) {
+			throw new ResourceNotFoundException(
+					"Parmetro informado na busca do produto não foi encontrado. NOME: " + nome);
+		}
+
+		return produto;
+	}
+
 	@Transactional
 	public Produto cadastrarProduto(ProdutoInsertDTO objDto) {
 
@@ -53,7 +79,8 @@ public class ProdutoService {
 
 			}
 			if (!produtoNaoCadastrado(objDto.getNome())) {
-				throw new ProductAlreadyRegisteredtException("Produto já cadastrado no banco de dados. Nome: " + objDto.getNome());
+				throw new ProductAlreadyRegisteredtException(
+						"Produto já cadastrado no banco de dados. Nome: " + objDto.getNome());
 			}
 			Produto produto = produtoRepo.save((new Produto(null, objDto.getNome(), objDto.getCategoria(), secao)));
 			Historico historico = historicoService.salvaHistorico(new Historico(null, objDto.getResponsavel(),
