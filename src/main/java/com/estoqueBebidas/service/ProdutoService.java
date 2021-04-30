@@ -50,10 +50,11 @@ public class ProdutoService {
 
 		objDto.setVolume(0.0);
 		Secao secao = secaoService.buscarPorId(objDto.getSecao_id());
-		if(secao.verificaEspacoDisponivel(objDto.getVolume())) {
-			if(verificaCadastro(objDto.getNome())) {
+		if (secao.verificaEspacoDisponivel() >= objDto.getVolume()) {
+			if (verificaCadastro(objDto.getNome())) {
 				Produto produto = produtoRepo.save((new Produto(null, objDto.getNome(), objDto.getCategoria(), secao)));
-				Historico historico = historicoService.salvaHistorico(new Historico(null, objDto.getResponsavel(), objDto.getHorario(), objDto.getVolume(), secao, produto, Operacao.CADASTRO));
+				Historico historico = historicoService.salvaHistorico(new Historico(null, objDto.getResponsavel(),
+						objDto.getHorario(), objDto.getVolume(), secao, produto, Operacao.CADASTRO));
 				secao.addHistorico(historico);
 				secao.addProduto(produto);
 				secao.addVolume(historico.getVolume());
@@ -61,10 +62,11 @@ public class ProdutoService {
 				secaoService.salvarSecao(secao);
 				return produtoRepo.save(produto);
 			}
-			throw new IllegalArgumentException("Produto já cadastrado no estoque. Nome: "+objDto.getNome());
-			
+			throw new IllegalArgumentException("Produto já cadastrado no estoque. Nome: " + objDto.getNome());
+
 		}
-		throw new IllegalArgumentException("Volume informado excede o espaco disponível da Secao. Volume informado: "+objDto.getVolume());
+		throw new IllegalArgumentException("Volume informado excede o espaco disponível da Secao. Volume informado: "
+				+ objDto.getVolume() + ", volume disponível na secão: " + secao.verificaEspacoDisponivel());
 
 	}
 	private boolean verificaCadastro(String nome) {		

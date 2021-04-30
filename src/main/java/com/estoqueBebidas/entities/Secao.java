@@ -104,10 +104,8 @@ public class Secao implements Serializable {
 	public void addVolume(Double volume) {
 		totalArmazenado += volume;
 	}
-	public boolean verificaEspacoDisponivel(Double volume) {
-		if((capacidade-totalArmazenado)>=volume ) {
-			return true;
-		}else return false;
+	public Double verificaEspacoDisponivel() {
+		return capacidade-totalArmazenado;
 	}
 
 	@Override
