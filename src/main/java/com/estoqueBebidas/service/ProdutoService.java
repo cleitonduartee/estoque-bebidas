@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.MissingServletRequestParameterException;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import com.estoqueBebidas.entities.Historico;
 import com.estoqueBebidas.entities.Produto;
@@ -71,17 +69,11 @@ public class ProdutoService {
 	public Produto cadastrarProduto(ProdutoInsertDTO objDto) {
 
 		try {
+			verificaSeProdutoJaECadastrado(objDto.getNome());
+			
 			objDto.setVolume(0.0);
 			Secao secao = secaoService.buscarPorId(objDto.getSecao_id());
-			if (!(secao.verificaEspacoDisponivel() >= objDto.getVolume())) {
-				throw new LimitSecaoException("Volume informado excede o espaco disponível da Secao. Volume informado: "
-						+ objDto.getVolume() + ", volume disponível na secão: " + secao.verificaEspacoDisponivel());
-
-			}
-			if (!produtoNaoCadastrado(objDto.getNome())) {
-				throw new ProductAlreadyRegisteredtException(
-						"Produto já cadastrado no banco de dados. Nome: " + objDto.getNome());
-			}
+			
 			Produto produto = produtoRepo.save((new Produto(null, objDto.getNome(), objDto.getCategoria(), secao)));
 			Historico historico = historicoService.salvaHistorico(new Historico(null, objDto.getResponsavel(),
 					objDto.getHorario(), objDto.getVolume(), secao, produto, Operacao.CADASTRO));
@@ -92,25 +84,25 @@ public class ProdutoService {
 			secaoService.salvarSecao(secao);
 			return produtoRepo.save(produto);
 
+		} catch (ProductAlreadyRegisteredtException  e) {
+			throw new ProductAlreadyRegisteredtException(e.getMessage());
 		} catch (DataIntegrityViolationException e) {
-			e.printStackTrace();
+			System.out.println("Classe: ProdotoService, Funcão: cadastrarProduto, Exception: DataIntegrityViolationException, Mensagem: "+e.getMessage());
 			return null;
-		} catch (Exception e) {
-			e.printStackTrace();
+		}catch (Exception e) {
+			System.out.println("Classe: ProdotoService, Funcão: cadastrarProduto, Exception: Exception, Mensagem: "+e.getMessage());
 			return null;
 		}
 	}
 
 	@Transactional
-	public Produto entradaDeProduto(ProdutoEntradaSaidaDTO objDto) {
+	public Produto entradaDeProduto(ProdutoEntradaSaidaDTO objDto){
 
 		try {
 			Secao secao = secaoService.buscarPorId(objDto.getSecao_id());
-			if (!(secao.verificaEspacoDisponivel() >= objDto.getVolume())) {
-				throw new LimitSecaoException("Volume informado excede o espaco disponível da Secao. Volume informado: "
-						+ objDto.getVolume() + ", volume disponível na secão: " + secao.verificaEspacoDisponivel());
 
-			}
+			verificaVolumeDeEntrada(secao, objDto.getVolume());
+
 			Produto produto = buscarPorId(objDto.getProduto_id());
 
 			Historico historico = historicoService.salvaHistorico(new Historico(null, objDto.getResponsavel(),
@@ -120,14 +112,15 @@ public class ProdutoService {
 			produto.addHistorico(historico);
 			secaoService.salvarSecao(secao);
 			return produtoRepo.save(produto);
-
+		} catch (LimitSecaoException e) {
+			throw new LimitSecaoException(e.getMessage());
 		} catch (DataIntegrityViolationException e) {
-			e.printStackTrace();
+			System.out.println("Classe: ProdotoService, Funcão: entradaDeProduto, Exception: DataIntegrityViolationException, Mensagem: "+e.getMessage());
 			return null;
-		} catch (Exception e) {
-			e.printStackTrace();
+		}catch (Exception e) {
+			System.out.println("Classe: ProdotoService, Funcão: entradaDeProduto, Exception: Exception, Mensagem: "+e.getMessage());
 			return null;
-		}
+		}		
 
 	}
 
@@ -136,13 +129,8 @@ public class ProdutoService {
 
 		try {
 			Secao secao = secaoService.buscarPorId(objDto.getSecao_id());
-			if (!(secao.verificaEspacoDisponivel() >= objDto.getVolume())) {
-				throw new LimitSecaoException(
-						"Volume informado é maior que o espaco disponível da Secao. Volume informado: "
-								+ objDto.getVolume() + ", volume disponível na secão: "
-								+ secao.verificaEspacoDisponivel());
 
-			}
+			verificaVolumeDeSaida(secao, objDto.getVolume());
 
 			Produto produto = buscarPorId(objDto.getProduto_id());
 			Historico historico = historicoService.salvaHistorico(new Historico(null, objDto.getResponsavel(),
@@ -152,20 +140,41 @@ public class ProdutoService {
 			produto.addHistorico(historico);
 			secaoService.salvarSecao(secao);
 			return produtoRepo.save(produto);
+		} catch (LimitSecaoException e) {
+			throw new LimitSecaoException(e.getMessage());
 		} catch (DataIntegrityViolationException e) {
-			e.printStackTrace();
+			System.out.println("Classe: ProdotoService, Funcão: saidaDeProduto, Exception: DataIntegrityViolationException, Mensagem: "+e.getMessage());
 			return null;
-		} catch (Exception e) {
-			e.printStackTrace();
+		}catch (Exception e) {
+			System.out.println("Classe: ProdotoService, Funcão: saidaDeProduto, Exception: Exception, Mensagem: "+e.getMessage());
 			return null;
+		}	
+
+	}
+
+	private void verificaVolumeDeEntrada(Secao secao, Double volume) {
+		if (secao.getVolumeDisponivel() < volume) {
+			throw new LimitSecaoException(
+					"Volume informado ultrapassa o espaco disponível na Secao para armazenamento. Volume informado: "
+							+ volume + ", volume disponível na secão para entrada: " + secao.getVolumeDisponivel());
 		}
 
 	}
 
-	private boolean produtoNaoCadastrado(String nome) {
+	private void verificaVolumeDeSaida(Secao secao, Double volume) {
+		if (secao.getTotalArmazenado() < volume) {
+			throw new LimitSecaoException(
+					"Volume informado é maior que o volume disponível na Secao. Volume informado: " + volume
+							+ ", volume disponível na secão para venda: " + secao.getTotalArmazenado());
+		}
+	}
+
+	private void verificaSeProdutoJaECadastrado(String nome) {
 		Produto p = produtoRepo.findByNome(nome);
-		if (p == null)
-			return true;
-		return false;
+		if (p != null) {
+			throw new ProductAlreadyRegisteredtException(
+					"Produto já cadastrado no banco de dados. Nome: " + nome);
+
+		}
 	}
 }

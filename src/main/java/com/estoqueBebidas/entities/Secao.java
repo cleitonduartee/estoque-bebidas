@@ -21,7 +21,8 @@ public class Secao implements Serializable {
 	private Integer id;
 	private String nome;
 	private Double capacidade;
-	private Double totalArmazenado = 0.0;
+	private Double volumeArmazenado = 0.0;
+	private Double volumeDisponivel ;
 	
 	private Integer categoria;
 	
@@ -40,7 +41,7 @@ public class Secao implements Serializable {
 		this.id = id;
 		this.nome = nome;
 		this.categoria = categoria != null ? categoria.getCod():null;
-		informaCapacidade();
+		informaCapacidadeEVolumeDisponivel();
 	}
 
 	public Integer getId() {
@@ -68,11 +69,11 @@ public class Secao implements Serializable {
 	}
 
 	public Double getTotalArmazenado() {
-		return totalArmazenado;
+		return volumeArmazenado;
 	}
 
-	public void setTotalArmazenado(Double totalArmazenado) {
-		this.totalArmazenado = totalArmazenado;
+	public void setTotalArmazenado(Double volumeArmazenado) {
+		this.volumeArmazenado = volumeArmazenado;
 	}
 
 	public Categoria getCategoria() {
@@ -82,8 +83,9 @@ public class Secao implements Serializable {
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria.getCod();
 	}
-	private void informaCapacidade() {
+	private void informaCapacidadeEVolumeDisponivel() {
 		capacidade = getCategoria().getLimit();
+		volumeDisponivel = getCategoria().getLimit();
 	}
 	public void addHistorico(Historico historico) {
 		historicos.add(historico);
@@ -102,14 +104,26 @@ public class Secao implements Serializable {
 	}
 
 	public void addVolume(Double volume) {
-		totalArmazenado += volume;
+		volumeArmazenado += volume;
+		ocupaEspacoNoEstoque(volume);
 	}
 	public void removeVolume(Double volume) {
-		totalArmazenado -= volume;
+		volumeArmazenado -= volume;
+		liberaEspacoNoEstoque(volume);
+	}	
+	public Double getVolumeDisponivel() {
+		return volumeDisponivel;
 	}
-	public Double verificaEspacoDisponivel() {
-		return capacidade-totalArmazenado;
+
+	private void liberaEspacoNoEstoque(Double volume) {
+		volumeDisponivel +=volume;
 	}
+
+	private void ocupaEspacoNoEstoque(Double volume) {
+		volumeDisponivel -=volume;
+	}
+	
+	
 
 	@Override
 	public int hashCode() {
@@ -135,7 +149,5 @@ public class Secao implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
 
 }
