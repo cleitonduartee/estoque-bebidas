@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.estoqueBebidas.entities.Secao;
+import com.estoqueBebidas.entities.enuns.Categoria;
 import com.estoqueBebidas.repository.SecaoRepository;
 import com.estoqueBebidas.service.exception.ResourceNotFoundException;
 
@@ -29,13 +30,23 @@ public class SecaoService {
 		return secaoRepo.findAll();
 	}
 
-	public Double verificaValor(String strValor) {
+	public Double convertDouble(String strValor) {
 		try {
 			Double valor = Double.parseDouble(strValor);
 			return valor;
 		} catch (NumberFormatException e) {
 			throw new IllegalArgumentException(
 					"Valor informado no parâmetro não é um número. Valor informado: " + strValor);
+		}
+
+	}
+	public Categoria converteCategoria(String strValor) {
+		try {
+			return Categoria.valueOf(strValor);
+			 
+		} catch (IllegalArgumentException e) {
+			throw new IllegalArgumentException(
+					"Valor informado no parâmetro não é uma Categoria. Valor informado: " + strValor);
 		}
 
 	}
