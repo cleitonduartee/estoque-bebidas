@@ -4,18 +4,18 @@ import java.io.Serializable;
 
 import com.estoqueBebidas.entities.Secao;
 
-public class SecaoVolumePorTipoOutDTO  implements Serializable {
+public class SecaoDisponivelEntradaOutDTO  implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
 	private String nome;	
-	private Double volumeNoEstoque ;
+	private Double volumeLivreNoEstoque;
 	
 		
-	public SecaoVolumePorTipoOutDTO (Secao obj) {
+	public SecaoDisponivelEntradaOutDTO (Secao obj) {
 		id = obj.getId();
 		nome = obj.getNome();		
-		volumeNoEstoque = obj.getVolumeNoEstoque();		
+		volumeLivreNoEstoque = obj.getVolumeLivreNoEstoque();		
 	}
 
 	public Integer getId() {
@@ -34,15 +34,8 @@ public class SecaoVolumePorTipoOutDTO  implements Serializable {
 		this.nome = nome;
 	}
 
-
-	public Double getVolumeNoEstoque() {
-		return volumeNoEstoque;
+	public Double getVolumeLivreNoEstoque() {
+		return volumeLivreNoEstoque;
 	}
-
-	public void setVolumeNoEstoque(Double volumeNoEstoque) {
-		this.volumeNoEstoque = volumeNoEstoque;
-	}
-
-	
 		
 }
