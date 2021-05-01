@@ -24,7 +24,7 @@ public class ResourceExceptionHandler {
 	@ExceptionHandler(LimitSecaoException.class)
 	public ResponseEntity<StandardError> limitSecaoException(LimitSecaoException e, HttpServletRequest request){
 		HttpStatus status = HttpStatus.BAD_REQUEST;
-		String error = "Erro no Armazenamento";
+		String error = "Erro no estoque";
 		StandardError err = new StandardError(status.value(), error, e.getMessage(), request.getRequestURI());
 		return ResponseEntity.status(status).body(err);
 	}

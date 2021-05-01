@@ -1,5 +1,6 @@
 package com.estoqueBebidas.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,5 +22,8 @@ public class SecaoService {
 	public Secao buscarPorId(Integer id) {
 		Optional<Secao> secao = secaoRepo.findById(id);
 		return secao.orElseThrow(()-> new ResourceNotFoundException("Secão não foi encontrado. ID informado: "+id));
+	}
+	public List<Secao> buscarTodos(){
+		return secaoRepo.findAll();
 	}
 }

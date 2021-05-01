@@ -79,7 +79,7 @@ public class ProdutoService {
 					objDto.getHorario(), objDto.getVolume(), secao, produto, Operacao.CADASTRO));
 			secao.addHistorico(historico);
 			secao.addProduto(produto);
-			secao.addVolume(historico.getVolume());
+			secao.addVolumeNoEstoque(historico.getVolume());
 			produto.addHistorico(historico);
 			secaoService.salvarSecao(secao);
 			return produtoRepo.save(produto);
@@ -108,7 +108,7 @@ public class ProdutoService {
 			Historico historico = historicoService.salvaHistorico(new Historico(null, objDto.getResponsavel(),
 					objDto.getHorario(), objDto.getVolume(), secao, produto, Operacao.COMPRA));
 			secao.addHistorico(historico);
-			secao.addVolume(historico.getVolume());
+			secao.addVolumeNoEstoque(historico.getVolume());
 			produto.addHistorico(historico);
 			secaoService.salvarSecao(secao);
 			return produtoRepo.save(produto);
@@ -136,7 +136,7 @@ public class ProdutoService {
 			Historico historico = historicoService.salvaHistorico(new Historico(null, objDto.getResponsavel(),
 					objDto.getHorario(), objDto.getVolume(), secao, produto, Operacao.CADASTRO));
 			secao.addHistorico(historico);
-			secao.removeVolume(historico.getVolume());
+			secao.removeVolumeDoEstoque(historico.getVolume());
 			produto.addHistorico(historico);
 			secaoService.salvarSecao(secao);
 			return produtoRepo.save(produto);
@@ -153,19 +153,19 @@ public class ProdutoService {
 	}
 
 	private void verificaVolumeDeEntrada(Secao secao, Double volume) {
-		if (secao.getVolumeDisponivel() < volume) {
+		if (secao.getVolumeLivreNoEstoque() < volume) {
 			throw new LimitSecaoException(
-					"Volume informado ultrapassa o espaco disponível na Secao para armazenamento. Volume informado: "
-							+ volume + ", volume disponível na secão para entrada: " + secao.getVolumeDisponivel());
+					"Volume de entrada ultrapassa o volume disponível no estoque dessa Secao. Volume informado: "
+							+ volume + ", volume disponível na secão para entrada: " + secao.getVolumeLivreNoEstoque());
 		}
 
 	}
 
 	private void verificaVolumeDeSaida(Secao secao, Double volume) {
-		if (secao.getTotalArmazenado() < volume) {
+		if (secao.getVolumeNoEstoque() < volume) {
 			throw new LimitSecaoException(
-					"Volume informado é maior que o volume disponível na Secao. Volume informado: " + volume
-							+ ", volume disponível na secão para venda: " + secao.getTotalArmazenado());
+					"Volume de saida é maior que o volume disponível na Secao. Volume informado: " + volume
+							+ ", volume disponível na secão para venda: " + secao.getVolumeNoEstoque());
 		}
 	}
 

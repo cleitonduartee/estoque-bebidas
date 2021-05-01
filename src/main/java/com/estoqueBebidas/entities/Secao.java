@@ -21,8 +21,8 @@ public class Secao implements Serializable {
 	private Integer id;
 	private String nome;
 	private Double capacidade;
-	private Double volumeArmazenado = 0.0;
-	private Double volumeDisponivel ;
+	private Double volumeNoEstoque = 0.0;
+	private Double volumeLivreNoEstoque;
 	
 	private Integer categoria;
 	
@@ -41,7 +41,7 @@ public class Secao implements Serializable {
 		this.id = id;
 		this.nome = nome;
 		this.categoria = categoria != null ? categoria.getCod():null;
-		informaCapacidadeEVolumeDisponivel();
+		informaCapacidadeEVolumeLivreNoEstoque();
 	}
 
 	public Integer getId() {
@@ -68,14 +68,10 @@ public class Secao implements Serializable {
 		this.capacidade = capacidade;
 	}
 
-	public Double getTotalArmazenado() {
-		return volumeArmazenado;
+	public Double getVolumeNoEstoque() {
+		return volumeNoEstoque;
 	}
-
-	public void setTotalArmazenado(Double volumeArmazenado) {
-		this.volumeArmazenado = volumeArmazenado;
-	}
-
+	
 	public Categoria getCategoria() {
 		return Categoria.convertCategoria(categoria);
 	}
@@ -83,9 +79,9 @@ public class Secao implements Serializable {
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria.getCod();
 	}
-	private void informaCapacidadeEVolumeDisponivel() {
-		capacidade = getCategoria().getLimit();
-		volumeDisponivel = getCategoria().getLimit();
+	private void informaCapacidadeEVolumeLivreNoEstoque() {
+		capacidade = getCategoria().getLimit();	
+		volumeLivreNoEstoque = getCategoria().getLimit();	
 	}
 	public void addHistorico(Historico historico) {
 		historicos.add(historico);
@@ -103,27 +99,17 @@ public class Secao implements Serializable {
 		return produtos;
 	}
 
-	public void addVolume(Double volume) {
-		volumeArmazenado += volume;
-		ocupaEspacoNoEstoque(volume);
+	public void addVolumeNoEstoque(Double volume) {
+		volumeNoEstoque += volume;	
+		volumeLivreNoEstoque -= volume;
 	}
-	public void removeVolume(Double volume) {
-		volumeArmazenado -= volume;
-		liberaEspacoNoEstoque(volume);
-	}	
-	public Double getVolumeDisponivel() {
-		return volumeDisponivel;
+	public void removeVolumeDoEstoque(Double volume) {
+		volumeNoEstoque -= volume;	
+		volumeLivreNoEstoque += volume;
 	}
-
-	private void liberaEspacoNoEstoque(Double volume) {
-		volumeDisponivel +=volume;
-	}
-
-	private void ocupaEspacoNoEstoque(Double volume) {
-		volumeDisponivel -=volume;
-	}
-	
-	
+	public Double getVolumeLivreNoEstoque() {
+		return volumeLivreNoEstoque;
+	}		
 
 	@Override
 	public int hashCode() {
@@ -149,5 +135,7 @@ public class Secao implements Serializable {
 			return false;
 		return true;
 	}
+
+
 
 }
