@@ -6,4 +6,5 @@ import com.estoqueBebidas.entities.Secao;
 
 public interface SecaoRepository extends JpaRepository<Secao, Integer> {
 
+	Secao findByNome(String nome);
 }

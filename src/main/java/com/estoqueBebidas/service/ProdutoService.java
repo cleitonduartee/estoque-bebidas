@@ -1,5 +1,6 @@
 package com.estoqueBebidas.service;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +36,7 @@ public class ProdutoService {
 	public List<Produto> buscarTodos() {
 		return produtoRepo.findAll();
 	}
+	SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 
 	public Produto buscarPorId(Integer id) {
 		Optional<Produto> produto = produtoRepo.findById(id);
@@ -71,12 +73,12 @@ public class ProdutoService {
 		try {
 			verificaSeProdutoJaECadastrado(objDto.getNome());
 
-			objDto.setVolume(0.0);
 			Secao secao = secaoService.buscarPorId(objDto.getSecao_id());
-
-			verificaSeIgualdadeDeCategoria(objDto, secao);
-
 			Produto produto = produtoRepo.save((new Produto(null, objDto.getNome(), objDto.getCategoria(), secao)));
+
+			verificaSeIgualdadeDeCategoria(produto, secao);
+
+			objDto.setVolume(0.0);
 			Historico historico = historicoService.salvaHistorico(new Historico(null, objDto.getResponsavel(),
 					objDto.getHorario(), objDto.getVolume(), secao, produto, Operacao.CADASTRO));
 			secao.addHistorico(historico);
@@ -104,10 +106,10 @@ public class ProdutoService {
 
 		try {
 			Secao secao = secaoService.buscarPorId(objDto.getSecao_id());
-
 			verificaVolumeDeEntrada(secao, objDto.getVolume());
-
+			
 			Produto produto = buscarPorId(objDto.getProduto_id());
+			verificaSeIgualdadeDeCategoria(produto, secao);
 
 			Historico historico = historicoService.salvaHistorico(new Historico(null, objDto.getResponsavel(),
 					objDto.getHorario(), objDto.getVolume(), secao, produto, Operacao.COMPRA));
@@ -116,6 +118,8 @@ public class ProdutoService {
 			produto.addHistorico(historico);
 			secaoService.salvarSecao(secao);
 			return produtoRepo.save(produto);
+		} catch (IllegalArgumentException e) {
+			throw new ResourceNotFoundException(e.getMessage());
 		} catch (LimitSecaoException e) {
 			throw new LimitSecaoException(e.getMessage());
 		} catch (DataIntegrityViolationException e) {
@@ -140,13 +144,17 @@ public class ProdutoService {
 			verificaVolumeDeSaida(secao, objDto.getVolume());
 
 			Produto produto = buscarPorId(objDto.getProduto_id());
+			verificaSeIgualdadeDeCategoria(produto, secao);
+			
 			Historico historico = historicoService.salvaHistorico(new Historico(null, objDto.getResponsavel(),
-					objDto.getHorario(), objDto.getVolume(), secao, produto, Operacao.CADASTRO));
+					objDto.getHorario(), objDto.getVolume(), secao, produto, Operacao.VENDA));
 			secao.addHistorico(historico);
 			secao.removeVolumeDoEstoque(historico.getVolume());
 			produto.addHistorico(historico);
 			secaoService.salvarSecao(secao);
 			return produtoRepo.save(produto);
+		} catch (IllegalArgumentException e) {
+			throw new ResourceNotFoundException(e.getMessage());
 		} catch (LimitSecaoException e) {
 			throw new LimitSecaoException(e.getMessage());
 		} catch (DataIntegrityViolationException e) {
@@ -186,13 +194,14 @@ public class ProdutoService {
 		}
 	}
 
-	private void verificaSeIgualdadeDeCategoria(ProdutoInsertDTO objDto, Secao secao) {
+	private void verificaSeIgualdadeDeCategoria(Produto produto, Secao secao) {
 
-		if (objDto.getCategoria().getCod() != secao.getCategoria().getCod()) {
+		if (produto.getCategoria().getCod() != secao.getCategoria().getCod()) {
 			throw new IllegalArgumentException(
 					"A categoria do produto é diferente da categoria da secao. Categoria do Produto: "
-							+ objDto.getCategoria() + ", categoria da secao: " + secao.getCategoria());
+							+ produto.getCategoria() + ", categoria da secao: " + secao.getCategoria());
 
 		}
-	}
+	}	
+	
 }

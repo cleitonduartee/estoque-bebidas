@@ -26,6 +26,17 @@ public class SecaoService {
 		return secao.orElseThrow(() -> new ResourceNotFoundException("Secão não foi encontrado. ID informado: " + id));
 	}
 
+	public Secao buscarPorNome(String nome) {
+
+		Secao secao = secaoRepo.findByNome(nome);
+		if (secao == null) {
+			throw new ResourceNotFoundException(
+					"Parâmetro informado na busca da Secão não foi encontrado. NOME INFORMADO: " + nome);
+		}
+		return secao;
+
+	}
+
 	public List<Secao> buscarTodos() {
 		return secaoRepo.findAll();
 	}
@@ -40,10 +51,11 @@ public class SecaoService {
 		}
 
 	}
+
 	public Categoria converteCategoria(String strValor) {
 		try {
 			return Categoria.valueOf(strValor);
-			 
+
 		} catch (IllegalArgumentException e) {
 			throw new IllegalArgumentException(
 					"Valor informado no parâmetro não é uma Categoria. Valor informado: " + strValor);

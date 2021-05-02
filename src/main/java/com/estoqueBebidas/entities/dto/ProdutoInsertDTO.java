@@ -1,7 +1,7 @@
 package com.estoqueBebidas.entities.dto;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.util.Date;
 
 import com.estoqueBebidas.entities.enuns.Categoria;
 
@@ -12,7 +12,7 @@ public class ProdutoInsertDTO implements Serializable {
 	private String nome;
 	private Categoria categoria;
 	private String responsavel; 
-	private Instant horario = Instant.now();		
+	private Date horario = new Date();		
 	private Integer secao_id;
 	private Double volume;
 	
@@ -70,11 +70,11 @@ public class ProdutoInsertDTO implements Serializable {
 		this.responsavel = responsavel;
 	}
 
-	public Instant getHorario() {
+	public Date getHorario() {
 		return horario;
 	}
 
-	public void setHorario(Instant horario) {
+	public void setHorario(Date horario) {
 		this.horario = horario;
 	}
 

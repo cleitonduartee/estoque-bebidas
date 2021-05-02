@@ -8,10 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.estoqueBebidas.entities.Historico;
+import com.estoqueBebidas.entities.Secao;
 import com.estoqueBebidas.entities.dto.HistoricoOutDTO;
+import com.estoqueBebidas.entities.dto.SecaoOutDto;
 import com.estoqueBebidas.service.HistoricoService;
 
 @RestController
@@ -33,6 +36,14 @@ public class HistoricoResource {
 		List<Historico> list = historicoService.buscarTodos();
 		List<HistoricoOutDTO> listDto = list.stream().map(x -> new HistoricoOutDTO(x)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDto);
+	}
+	@GetMapping(value = "/porCategoriaSecao")
+	public ResponseEntity<SecaoOutDto> buscarPorCategoriaESecao(
+			@RequestParam(value = "categoria", defaultValue = "")String categoria,
+			@RequestParam(value = "secao", defaultValue = "") String secao){
+		Secao respSecao = historicoService.buscarPorCategoriaESecao(categoria,secao);
+		SecaoOutDto secaoDto = new SecaoOutDto(respSecao);
+		return ResponseEntity.ok().body(secaoDto);
 	}
 
 }

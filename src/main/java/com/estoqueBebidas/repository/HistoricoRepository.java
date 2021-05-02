@@ -6,4 +6,5 @@ import com.estoqueBebidas.entities.Historico;
 
 public interface HistoricoRepository extends JpaRepository<Historico, Integer> {
 
+	
 }

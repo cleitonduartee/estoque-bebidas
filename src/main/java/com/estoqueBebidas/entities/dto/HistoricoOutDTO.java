@@ -1,45 +1,46 @@
 package com.estoqueBebidas.entities.dto;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.util.Date;
 
 import com.estoqueBebidas.entities.Historico;
+import com.estoqueBebidas.entities.enuns.Operacao;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class HistoricoOutDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private Integer id;
-	private String responsavel; 
-	private Instant horario;
+	
+	private String responsavel;	
+	@JsonFormat(pattern = "HH:mm",timezone = "Brazil/East")
+	private Date horario;
 	private Double volume;	
-	private ProdutoOutDTO produto;
+	private ProdutoHistoricoOutDTO produtos;
+	private Operacao operacao;
+	
 	
 	public HistoricoOutDTO() {
 		
 	}
 	public HistoricoOutDTO(Historico obj) {
-		id = obj.getId();
+		
 		responsavel = obj.getResponsavel();
 		horario = obj.getHorario();
 		volume = obj.getVolume();
-		produto = new ProdutoOutDTO(obj.getProduto());		
+		produtos = new ProdutoHistoricoOutDTO(obj.getProduto());	
+		setOperacao(obj.getOperacao());		
 	}
-	public Integer getId() {
-		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
+	
 	public String getResponsavel() {
 		return responsavel;
 	}
 	public void setResponsavel(String responsavel) {
 		this.responsavel = responsavel;
 	}
-	public Instant getHorario() {
+	public Date getHorario() {
 		return horario;
 	}
-	public void setHorario(Instant horario) {
+	public void setHorario(Date horario) {
 		this.horario = horario;
 	}
 	public Double getVolume() {
@@ -48,11 +49,17 @@ public class HistoricoOutDTO implements Serializable {
 	public void setVolume(Double volume) {
 		this.volume = volume;
 	}
-	public ProdutoOutDTO getProduto() {
-		return produto;
+	public ProdutoHistoricoOutDTO getProdutos() {
+		return produtos;
 	}
-	public void setProduto(ProdutoOutDTO produto) {
-		this.produto = produto;
+	public void setProduto(ProdutoHistoricoOutDTO produto) {
+		this.produtos = produto;
+	}
+	public Operacao getOperacao() {
+		return operacao;
+	}
+	public void setOperacao(Operacao operacao) {
+		this.operacao = operacao;
 	}
 	
 }

@@ -36,10 +36,10 @@ public class PopulaBancoH2 implements CommandLineRunner {
 		produtoService.entradaDeProduto(new ProdutoEntradaSaidaDTO(3,2,"Cleiton Duarte",255.0));
 		produtoService.cadastrarProduto(new ProdutoInsertDTO(null,"Coca-Cola",Categoria.NAOALCOOLICA,3,"Cleiton Duarte",0.0));
 		produtoService.cadastrarProduto(new ProdutoInsertDTO(null,"Fanta",Categoria.NAOALCOOLICA,3,"Cleiton Duarte",0.0));
-		produtoService.entradaDeProduto(new ProdutoEntradaSaidaDTO(4,3,"Cleiton Duarte",188.0));
-		produtoService.entradaDeProduto(new ProdutoEntradaSaidaDTO(5,3,"Cleiton Duarte",193.0));
-		produtoService.entradaDeProduto(new ProdutoEntradaSaidaDTO(5,4,"Cleiton Duarte",208.0));
-		produtoService.entradaDeProduto(new ProdutoEntradaSaidaDTO(5,4,"Cleiton Duarte",211.0));
+		produtoService.entradaDeProduto(new ProdutoEntradaSaidaDTO(4,3,"Cleiton Duarte",59.0));
+		produtoService.entradaDeProduto(new ProdutoEntradaSaidaDTO(5,3,"Cleiton Duarte",93.0));
+		produtoService.entradaDeProduto(new ProdutoEntradaSaidaDTO(5,3,"Cleiton Duarte",108.0));
+		produtoService.entradaDeProduto(new ProdutoEntradaSaidaDTO(5,3,"Cleiton Duarte",111.0));
 		produtoService.cadastrarProduto(new ProdutoInsertDTO(null,"Red Bull",Categoria.NAOALCOOLICA,5,"Cleiton Duarte",0.0));
 		produtoService.cadastrarProduto(new ProdutoInsertDTO(null,"Monster",Categoria.NAOALCOOLICA,5,"Cleiton Duarte",0.0));
 		produtoService.cadastrarProduto(new ProdutoInsertDTO(null,"Fusion",Categoria.NAOALCOOLICA,5,"Cleiton Duarte",0.0));
@@ -49,8 +49,14 @@ public class PopulaBancoH2 implements CommandLineRunner {
 		produtoService.saidaDeProduto(new ProdutoEntradaSaidaDTO(6,5,"Cleiton Duarte",9.0));
 		produtoService.saidaDeProduto(new ProdutoEntradaSaidaDTO(7,5,"Cleiton Duarte",100.0));
 		produtoService.saidaDeProduto(new ProdutoEntradaSaidaDTO(7,5,"Cleiton Duarte",10.0));
-//
-//		
+		produtoService.cadastrarProduto(new ProdutoInsertDTO(null, "Vinho Suave",Categoria.ALCOOLICA,4,"Cleiton Duarte",0.0));
+		produtoService.entradaDeProduto(new ProdutoEntradaSaidaDTO(9,4,"Cleiton Duarte",38.0));
+		produtoService.entradaDeProduto(new ProdutoEntradaSaidaDTO(9,4,"Cleiton Duarte",132.0));
+		produtoService.entradaDeProduto(new ProdutoEntradaSaidaDTO(9,4,"Cleiton Duarte",99.0));
+		produtoService.entradaDeProduto(new ProdutoEntradaSaidaDTO(9,4,"Cleiton Duarte",123.0));
+		produtoService.saidaDeProduto(new ProdutoEntradaSaidaDTO(9,4,"Cleiton Duarte",11.0));
+		produtoService.saidaDeProduto(new ProdutoEntradaSaidaDTO(9,4,"Cleiton Duarte",29.0));
+		produtoService.saidaDeProduto(new ProdutoEntradaSaidaDTO(9,4,"Cleiton Duarte",74.0));
 	}
 
 }

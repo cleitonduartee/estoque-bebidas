@@ -5,24 +5,23 @@ import java.io.Serializable;
 import com.estoqueBebidas.entities.Produto;
 import com.estoqueBebidas.entities.enuns.Categoria;
 
-public class ProdutoOutDTO implements Serializable {
+public class ProdutoHistoricoOutDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
 	private String nome;
-	private Categoria categoria;	
-	private ProdutoSecaoOutDTO secao;
+	private Categoria categoria;
 	
-	public ProdutoOutDTO() {
+	
+	public ProdutoHistoricoOutDTO() {
 		
 	}
 
-	public ProdutoOutDTO(Produto produto) {
+	public ProdutoHistoricoOutDTO(Produto produto) {
 		super();
 		id = produto.getId();
 		nome = produto.getNome();
-		categoria = produto.getCategoria();	
-		secao = new ProdutoSecaoOutDTO(produto.getSecao());
+		categoria = produto.getCategoria();		
 	}
 
 	public Integer getId() {
@@ -47,14 +46,6 @@ public class ProdutoOutDTO implements Serializable {
 
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
-	}
-
-	public ProdutoSecaoOutDTO getSecao() {
-		return secao;
-	}
-
-	public void setSecao(ProdutoSecaoOutDTO secao) {
-		this.secao = secao;
 	}
 
 }

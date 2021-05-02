@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.estoqueBebidas.entities.enuns.Categoria;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Secao implements Serializable {
@@ -95,6 +96,7 @@ public class Secao implements Serializable {
 		produtos.add(produto);
 	}
 	
+	@JsonIgnore
 	public List<Produto> getProdutos() {
 		return produtos;
 	}

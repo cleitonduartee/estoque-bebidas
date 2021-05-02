@@ -1,7 +1,7 @@
 package com.estoqueBebidas.entities;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.estoqueBebidas.entities.enuns.Operacao;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Historico implements Serializable {
@@ -20,7 +21,7 @@ public class Historico implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String responsavel; 
-	private Instant horario;
+	private Date horario;
 	private Double volume;
 	private Integer operacao;
 	
@@ -36,7 +37,7 @@ public class Historico implements Serializable {
 		
 	}
 
-	public Historico(Integer id, String responsavel, Instant horario, Double volume,Secao secao, Produto produto,Operacao operacao) {
+	public Historico(Integer id, String responsavel, Date horario, Double volume,Secao secao, Produto produto,Operacao operacao) {
 		super();
 		this.id = id;
 		this.responsavel = responsavel;
@@ -63,11 +64,11 @@ public class Historico implements Serializable {
 		this.responsavel = responsavel;
 	}
 
-	public Instant getHorario() {
+	public Date getHorario() {
 		return horario;
 	}
 
-	public void setHorario(Instant horario) {
+	public void setHorario(Date horario) {
 		this.horario = horario;
 	}
 
@@ -78,6 +79,7 @@ public class Historico implements Serializable {
 	public void setVolume(Double volume) {
 		this.volume = volume;
 	}
+	@JsonIgnore
 	public Secao getSecao() {
 		return secao;
 	}

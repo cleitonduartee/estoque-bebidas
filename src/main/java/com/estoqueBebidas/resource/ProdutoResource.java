@@ -50,6 +50,7 @@ public class ProdutoResource {
 		return ResponseEntity.ok().body(listDto);
 
 	}
+	
 	@GetMapping(value = "/findByNome")
 	public ResponseEntity<ProdutoOutDTO> buscarPorNome(
 			@RequestParam(value = "nome") String nome){		

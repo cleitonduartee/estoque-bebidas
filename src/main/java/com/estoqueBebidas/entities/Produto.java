@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.estoqueBebidas.entities.enuns.Categoria;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Produto implements Serializable {
@@ -65,7 +66,8 @@ public class Produto implements Serializable {
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria.getCod();
 	}
-
+	
+	@JsonIgnore
 	public Secao getSecao() {
 		return secao;
 	}
