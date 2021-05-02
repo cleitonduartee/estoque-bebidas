@@ -49,8 +49,8 @@ public class PopulaBancoH2 implements CommandLineRunner {
 		produtoService.saidaDeProduto(new ProdutoEntradaSaidaDTO(6,5,"Cleiton Duarte",9.0));
 		produtoService.saidaDeProduto(new ProdutoEntradaSaidaDTO(7,5,"Cleiton Duarte",100.0));
 		produtoService.saidaDeProduto(new ProdutoEntradaSaidaDTO(7,5,"Cleiton Duarte",10.0));
-
-		
+//
+//		
 	}
 
 }

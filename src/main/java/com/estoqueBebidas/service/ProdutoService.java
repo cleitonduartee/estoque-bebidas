@@ -70,10 +70,12 @@ public class ProdutoService {
 
 		try {
 			verificaSeProdutoJaECadastrado(objDto.getNome());
-			
+
 			objDto.setVolume(0.0);
 			Secao secao = secaoService.buscarPorId(objDto.getSecao_id());
-			
+
+			verificaSeIgualdadeDeCategoria(objDto, secao);
+
 			Produto produto = produtoRepo.save((new Produto(null, objDto.getNome(), objDto.getCategoria(), secao)));
 			Historico historico = historicoService.salvaHistorico(new Historico(null, objDto.getResponsavel(),
 					objDto.getHorario(), objDto.getVolume(), secao, produto, Operacao.CADASTRO));
@@ -84,19 +86,21 @@ public class ProdutoService {
 			secaoService.salvarSecao(secao);
 			return produtoRepo.save(produto);
 
-		} catch (ProductAlreadyRegisteredtException  e) {
+		} catch (ProductAlreadyRegisteredtException e) {
 			throw new ProductAlreadyRegisteredtException(e.getMessage());
+
+		} catch (IllegalArgumentException e) {
+			throw new ResourceNotFoundException(e.getMessage());
 		} catch (DataIntegrityViolationException e) {
-			System.out.println("Classe: ProdotoService, Funcão: cadastrarProduto, Exception: DataIntegrityViolationException, Mensagem: "+e.getMessage());
-			return null;
-		}catch (Exception e) {
-			System.out.println("Classe: ProdotoService, Funcão: cadastrarProduto, Exception: Exception, Mensagem: "+e.getMessage());
+			System.out.println(
+					"Classe: ProdotoService, Funcão: cadastrarProduto, Exception: DataIntegrityViolationException, Mensagem: "
+							+ e.getMessage());
 			return null;
 		}
 	}
 
 	@Transactional
-	public Produto entradaDeProduto(ProdutoEntradaSaidaDTO objDto){
+	public Produto entradaDeProduto(ProdutoEntradaSaidaDTO objDto) {
 
 		try {
 			Secao secao = secaoService.buscarPorId(objDto.getSecao_id());
@@ -115,12 +119,15 @@ public class ProdutoService {
 		} catch (LimitSecaoException e) {
 			throw new LimitSecaoException(e.getMessage());
 		} catch (DataIntegrityViolationException e) {
-			System.out.println("Classe: ProdotoService, Funcão: entradaDeProduto, Exception: DataIntegrityViolationException, Mensagem: "+e.getMessage());
+			System.out.println(
+					"Classe: ProdotoService, Funcão: entradaDeProduto, Exception: DataIntegrityViolationException, Mensagem: "
+							+ e.getMessage());
 			return null;
-		}catch (Exception e) {
-			System.out.println("Classe: ProdotoService, Funcão: entradaDeProduto, Exception: Exception, Mensagem: "+e.getMessage());
+		} catch (Exception e) {
+			System.out.println("Classe: ProdotoService, Funcão: entradaDeProduto, Exception: Exception, Mensagem: "
+					+ e.getMessage());
 			return null;
-		}		
+		}
 
 	}
 
@@ -143,12 +150,15 @@ public class ProdutoService {
 		} catch (LimitSecaoException e) {
 			throw new LimitSecaoException(e.getMessage());
 		} catch (DataIntegrityViolationException e) {
-			System.out.println("Classe: ProdotoService, Funcão: saidaDeProduto, Exception: DataIntegrityViolationException, Mensagem: "+e.getMessage());
+			System.out.println(
+					"Classe: ProdotoService, Funcão: saidaDeProduto, Exception: DataIntegrityViolationException, Mensagem: "
+							+ e.getMessage());
 			return null;
-		}catch (Exception e) {
-			System.out.println("Classe: ProdotoService, Funcão: saidaDeProduto, Exception: Exception, Mensagem: "+e.getMessage());
+		} catch (Exception e) {
+			System.out.println("Classe: ProdotoService, Funcão: saidaDeProduto, Exception: Exception, Mensagem: "
+					+ e.getMessage());
 			return null;
-		}	
+		}
 
 	}
 
@@ -163,17 +173,25 @@ public class ProdutoService {
 
 	private void verificaVolumeDeSaida(Secao secao, Double volume) {
 		if (secao.getVolumeNoEstoque() < volume) {
-			throw new LimitSecaoException(
-					"Volume de saida é maior que o volume disponível na Secao. Volume informado: " + volume
-							+ ", volume disponível na secão para venda: " + secao.getVolumeNoEstoque());
+			throw new LimitSecaoException("Volume de saida é maior que o volume disponível na Secao. Volume informado: "
+					+ volume + ", volume disponível na secão para venda: " + secao.getVolumeNoEstoque());
 		}
 	}
 
 	private void verificaSeProdutoJaECadastrado(String nome) {
 		Produto p = produtoRepo.findByNome(nome);
 		if (p != null) {
-			throw new ProductAlreadyRegisteredtException(
-					"Produto já cadastrado no banco de dados. Nome: " + nome);
+			throw new ProductAlreadyRegisteredtException("Produto já cadastrado no banco de dados de nome: " + nome);
+
+		}
+	}
+
+	private void verificaSeIgualdadeDeCategoria(ProdutoInsertDTO objDto, Secao secao) {
+
+		if (objDto.getCategoria().getCod() != secao.getCategoria().getCod()) {
+			throw new IllegalArgumentException(
+					"A categoria do produto é diferente da categoria da secao. Categoria do Produto: "
+							+ objDto.getCategoria() + ", categoria da secao: " + secao.getCategoria());
 
 		}
 	}

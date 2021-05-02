@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import com.estoqueBebidas.entities.Secao;
 
-public class SecaoVolumePorTipoOutDTO  implements Serializable {
+public class SecaoVolumePorCategoriaOutDTO  implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
@@ -12,7 +12,7 @@ public class SecaoVolumePorTipoOutDTO  implements Serializable {
 	private Double volumeNoEstoque ;
 	
 		
-	public SecaoVolumePorTipoOutDTO (Secao obj) {
+	public SecaoVolumePorCategoriaOutDTO (Secao obj) {
 		id = obj.getId();
 		nome = obj.getNome();		
 		volumeNoEstoque = obj.getVolumeNoEstoque();		

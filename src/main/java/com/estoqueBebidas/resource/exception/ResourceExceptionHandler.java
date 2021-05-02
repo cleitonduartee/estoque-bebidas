@@ -17,21 +17,21 @@ public class ResourceExceptionHandler {
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public ResponseEntity<StandardError> resourceNotFound(ResourceNotFoundException e, HttpServletRequest request){
 		HttpStatus status = HttpStatus.NOT_FOUND;
-		String error = "Não foi possível encontrar o recurso solicitado. ";
+		String error = "ERRO NO RECURSO INFORMADO.";
 		StandardError err = new StandardError(status.value(), error, e.getMessage(), request.getRequestURI());
 		return ResponseEntity.status(status).body(err);
 	}
 	@ExceptionHandler(LimitSecaoException.class)
 	public ResponseEntity<StandardError> limitSecaoException(LimitSecaoException e, HttpServletRequest request){
 		HttpStatus status = HttpStatus.BAD_REQUEST;
-		String error = "Erro no estoque";
+		String error = "ERRO NO ESTOQUE";
 		StandardError err = new StandardError(status.value(), error, e.getMessage(), request.getRequestURI());
 		return ResponseEntity.status(status).body(err);
 	}
 	@ExceptionHandler(ProductAlreadyRegisteredtException.class)
 	public ResponseEntity<StandardError> productAlreadyRegisteredtException(ProductAlreadyRegisteredtException e, HttpServletRequest request){
 		HttpStatus status = HttpStatus.BAD_REQUEST;
-		String error = "Produto Já cadastrado";
+		String error = "ERRO DE DUPLICIDADE";
 		StandardError err = new StandardError(status.value(), error, e.getMessage(), request.getRequestURI());
 		return ResponseEntity.status(status).body(err);
 	}

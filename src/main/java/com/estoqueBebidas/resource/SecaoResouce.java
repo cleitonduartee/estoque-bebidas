@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.estoqueBebidas.entities.Secao;
 import com.estoqueBebidas.entities.dto.SecaoDisponivelEntradaOutDTO;
 import com.estoqueBebidas.entities.dto.SecaoDisponivelSaidaOutDTO;
-import com.estoqueBebidas.entities.dto.VolumePorTipoOutDTO;
+import com.estoqueBebidas.entities.dto.VolumePorCategoriaOutDTO;
 import com.estoqueBebidas.entities.enuns.Categoria;
 import com.estoqueBebidas.service.SecaoService;
 import com.estoqueBebidas.service.exception.ResourceNotFoundException;
@@ -26,11 +26,11 @@ public class SecaoResouce {
 	@Autowired
 	private SecaoService secaoService;
 
-	@GetMapping(value = "/volumePorTipo")
-	public ResponseEntity<List<VolumePorTipoOutDTO>> volumePortipo() {
+	@GetMapping(value = "/volumePorCategoria")
+	public ResponseEntity<List<VolumePorCategoriaOutDTO>> volumePorCategoria() {
 		List<Secao> listSecao = secaoService.buscarTodos();
-		VolumePorTipoOutDTO tipoAlcoolica = new VolumePorTipoOutDTO(Categoria.ALCOOLICA);
-		VolumePorTipoOutDTO tipoNaoAlcoolica = new VolumePorTipoOutDTO(Categoria.NAOALCOOLICA);
+		VolumePorCategoriaOutDTO tipoAlcoolica = new VolumePorCategoriaOutDTO(Categoria.ALCOOLICA);
+		VolumePorCategoriaOutDTO tipoNaoAlcoolica = new VolumePorCategoriaOutDTO(Categoria.NAOALCOOLICA);
 
 		listSecao.stream().forEach(x -> {
 			if (x.getCategoria().getCod() == tipoAlcoolica.getCategoria().getCod()) {
@@ -42,7 +42,7 @@ public class SecaoResouce {
 			}
 		});
 
-		List<VolumePorTipoOutDTO> listPorTipo = Arrays.asList(tipoAlcoolica, tipoNaoAlcoolica);
+		List<VolumePorCategoriaOutDTO> listPorTipo = Arrays.asList(tipoAlcoolica, tipoNaoAlcoolica);
 		return ResponseEntity.ok().body(listPorTipo);
 
 	}
@@ -63,7 +63,7 @@ public class SecaoResouce {
 
 	}
 
-	@GetMapping(value = "/volumePorCategoria")
+	@GetMapping(value = "/disponivelSaida")
 	public ResponseEntity<List<SecaoDisponivelSaidaOutDTO>> disponivelParaSaida(
 			@RequestParam(value = "categoria") String strCategoriar) {
 		try {

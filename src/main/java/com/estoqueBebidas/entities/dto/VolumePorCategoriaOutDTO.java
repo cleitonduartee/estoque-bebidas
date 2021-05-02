@@ -7,14 +7,14 @@ import java.util.List;
 import com.estoqueBebidas.entities.Secao;
 import com.estoqueBebidas.entities.enuns.Categoria;
 
-public class VolumePorTipoOutDTO  implements Serializable {
+public class VolumePorCategoriaOutDTO  implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Categoria categoria;
 	private Double total = 0.0;
-	private List<SecaoVolumePorTipoOutDTO> secoes = new ArrayList<>();
+	private List<SecaoVolumePorCategoriaOutDTO> secoes = new ArrayList<>();
 		
-	public VolumePorTipoOutDTO(Categoria categoria) {
+	public VolumePorCategoriaOutDTO(Categoria categoria) {
 		this.categoria = categoria;		
 	}
 	
@@ -27,12 +27,12 @@ public class VolumePorTipoOutDTO  implements Serializable {
 	public void addTotal(Double totalPorTipo) {
 		total += totalPorTipo;
 	}
-	public List<SecaoVolumePorTipoOutDTO> getSecoes() {
+	public List<SecaoVolumePorCategoriaOutDTO> getSecoes() {
 		return secoes;
 	}
 
 	public void addSecao(Secao secaos) {
-		secoes.add(new SecaoVolumePorTipoOutDTO(secaos));
+		secoes.add(new SecaoVolumePorCategoriaOutDTO(secaos));
 	}
 
 
