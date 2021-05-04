@@ -1,6 +1,7 @@
 package com.estoqueBebidas.service;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,9 +79,9 @@ public class ProdutoService {
 
 			verificaSeIgualdadeDeCategoria(produto, secao);
 
-			objDto.setVolume(0.0);
+			
 			Historico historico = historicoService.salvaHistorico(new Historico(null, objDto.getResponsavel(),
-					objDto.getHorario(), objDto.getVolume(), secao, produto, Operacao.CADASTRO));
+					new Date(), 0.0, secao, produto, Operacao.CADASTRO));
 			secao.addHistorico(historico);
 			secao.addProduto(produto);
 			secao.addVolumeNoEstoque(historico.getVolume());
