@@ -8,6 +8,6 @@ import com.estoqueBebidas.entities.Produto;
 
 public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
 
-	Produto findByNome(String nome);
+	Produto findByNomeLike(String nome);
 	List<Produto> findByCategoria(Integer cat);
 }

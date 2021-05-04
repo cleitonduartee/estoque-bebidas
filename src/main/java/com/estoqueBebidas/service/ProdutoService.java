@@ -58,7 +58,7 @@ public class ProdutoService {
 
 	public Produto buscarPorNome(String nome) {
 
-		Produto produto = produtoRepo.findByNome(nome);
+		Produto produto = produtoRepo.findByNomeLike(nome.toUpperCase());
 		if (produto == null) {
 			throw new ResourceNotFoundException(
 					"Parmetro informado na busca do produto não foi encontrado. NOME: " + nome);
@@ -74,7 +74,7 @@ public class ProdutoService {
 			verificaSeProdutoJaECadastrado(objDto.getNome());
 
 			Secao secao = secaoService.buscarPorId(objDto.getSecao_id());
-			Produto produto = produtoRepo.save((new Produto(null, objDto.getNome(), objDto.getCategoria(), secao)));
+			Produto produto = produtoRepo.save((new Produto(null, objDto.getNome().toUpperCase(), objDto.getCategoria(), secao)));
 
 			verificaSeIgualdadeDeCategoria(produto, secao);
 
@@ -187,9 +187,9 @@ public class ProdutoService {
 	}
 
 	private void verificaSeProdutoJaECadastrado(String nome) {
-		Produto p = produtoRepo.findByNome(nome);
+		Produto p = produtoRepo.findByNomeLike(nome.toUpperCase());
 		if (p != null) {
-			throw new ProductAlreadyRegisteredtException("Produto já cadastrado no banco de dados de nome: " + nome);
+			throw new ProductAlreadyRegisteredtException("Produto já cadastrado no banco de dados de nome: " + p.getNome());
 
 		}
 	}
