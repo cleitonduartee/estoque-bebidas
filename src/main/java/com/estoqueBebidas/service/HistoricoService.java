@@ -35,7 +35,7 @@ public class HistoricoService {
 
 	public Secao buscarPorCategoriaESecao(String StrCategoria, String StrHistorico) {
 		Categoria categoria = converteCategoria(StrCategoria);
-		Secao secao = secaoService.buscarPorNome(StrHistorico);
+		Secao secao = secaoService.buscarPorNome(StrHistorico.toUpperCase());
 		secao.getHistoricos().stream().filter(x -> (x.getSecao() == secao && x.getSecao().getCategoria().getCod() == categoria.getCod()))
 		.collect(Collectors.toList());
 		

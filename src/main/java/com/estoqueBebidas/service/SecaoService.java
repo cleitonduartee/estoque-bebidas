@@ -18,6 +18,7 @@ public class SecaoService {
 	private SecaoRepository secaoRepo;
 
 	public Secao salvarSecao(Secao secao) {
+		secao.setNome(secao.getNome().toUpperCase());
 		return secaoRepo.save(secao);
 	}
 
