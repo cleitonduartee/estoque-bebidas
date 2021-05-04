@@ -34,12 +34,17 @@ public class HistoricoService {
 	}
 
 	public Secao buscarPorCategoriaESecao(String StrCategoria, String StrHistorico) {
-		Categoria categoria = converteCategoria(StrCategoria);
-		Secao secao = secaoService.buscarPorNome(StrHistorico.toUpperCase());
-		secao.getHistoricos().stream().filter(x -> (x.getSecao() == secao && x.getSecao().getCategoria().getCod() == categoria.getCod()))
-		.collect(Collectors.toList());
-		
-		return secao;
+		try {
+			Categoria categoria = converteCategoria(StrCategoria.toUpperCase());
+			Secao secao = secaoService.buscarPorNome(StrHistorico.toUpperCase());
+			verificaSeIgualdadeDeCategoria(categoria, secao);
+			secao.getHistoricos().stream().filter(x -> (x.getSecao() == secao && x.getSecao().getCategoria().getCod() == categoria.getCod()))
+			.collect(Collectors.toList());
+			
+			return secao;
+		} catch (Exception e) {			
+			throw new ResourceNotFoundException(e.getMessage());
+		}
 	}
 
 	@Transactional
@@ -57,9 +62,18 @@ public class HistoricoService {
 		} catch (IllegalArgumentException e) {
 			
 			throw new ResourceNotFoundException(
-					"Parâmetro informado na busca da Categoria não foi encontrado. NOME INFORMADO: " + categoria);
+					 "Parâmetro informado na busca da Categoria não foi encontrado. NOME INFORMADO: " + categoria + ". Tipos de Categorias: "+Categoria.tiposDeCategorias());
 		}
 
 	}
+	private void verificaSeIgualdadeDeCategoria(Categoria categoria, Secao secao) {
+
+		if (categoria.getCod() != secao.getCategoria().getCod()) {
+			throw new IllegalArgumentException(
+					"A categoria informada no parâmetro não é a mesma categoria da secao. Categoria: "
+							+ categoria+ ", categoria da secao: " + secao.getCategoria());
+
+		}
+	}	
 
 }

@@ -31,8 +31,13 @@ public class SecaoService {
 
 		Secao secao = secaoRepo.findByNome(nome);
 		if (secao == null) {
+			List<Secao> list = secaoRepo.findAll();
+			String buffer = "";
+			for (Secao x: list) {
+				buffer += x.getNome()+" ";
+			}
 			throw new ResourceNotFoundException(
-					"Parâmetro informado na busca da Secão não foi encontrado. NOME INFORMADO: " + nome);
+					"Parâmetro informado na busca da Secão não foi encontrado. NOME INFORMADO: " + nome+". Secões cadastradas: "+buffer);
 		}
 		return secao;
 

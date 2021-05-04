@@ -36,4 +36,11 @@ public enum Categoria {
 		}
 		throw new IllegalArgumentException("Categoria não encontrada. Código informado: "+cod);
 	}
+	public static String tiposDeCategorias() {
+		String buffer = "";
+		for (Categoria x : Categoria.values()) {
+			buffer += x+" ";
+		}
+		return buffer;
+	}
 }

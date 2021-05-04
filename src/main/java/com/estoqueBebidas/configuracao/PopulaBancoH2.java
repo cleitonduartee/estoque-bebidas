@@ -25,7 +25,7 @@ public class PopulaBancoH2 implements CommandLineRunner {
 	
 		secaoService.salvarSecao(new Secao(null, "Cervejas", Categoria.ALCOOLICA));
 		secaoService.salvarSecao(new Secao(null, "Sucos", Categoria.NAOALCOOLICA));
-		secaoService.salvarSecao(new Secao(null, "Refirgerantes", Categoria.NAOALCOOLICA));
+		secaoService.salvarSecao(new Secao(null, "Refrigerantes", Categoria.NAOALCOOLICA));
 		secaoService.salvarSecao(new Secao(null, "Vinhos", Categoria.ALCOOLICA));
 		secaoService.salvarSecao(new Secao(null, "Energeticos", Categoria.NAOALCOOLICA));
 				

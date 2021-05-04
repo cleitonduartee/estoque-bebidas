@@ -45,5 +45,4 @@ public class HistoricoResource {
 		SecaoOutDto secaoDto = new SecaoOutDto(respSecao);
 		return ResponseEntity.ok().body(secaoDto);
 	}
-
 }
