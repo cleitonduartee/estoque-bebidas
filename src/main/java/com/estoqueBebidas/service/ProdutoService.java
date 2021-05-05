@@ -1,6 +1,7 @@
 package com.estoqueBebidas.service;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -77,10 +78,9 @@ public class ProdutoService {
 			Produto produto = produtoRepo.save((new Produto(null, objDto.getNome().toUpperCase(), objDto.getCategoria(), secao)));
 
 			verificaSeIgualdadeDeCategoria(produto, secao);
-
-			objDto.setVolume(0.0);
+			
 			Historico historico = historicoService.salvaHistorico(new Historico(null, objDto.getResponsavel(),
-					objDto.getHorario(), objDto.getVolume(), secao, produto, Operacao.CADASTRO));
+					new Date(), 0.0, secao, produto, Operacao.CADASTRO));
 			secao.addHistorico(historico);
 			secao.addProduto(produto);
 			secao.addVolumeNoEstoque(historico.getVolume());
@@ -112,7 +112,7 @@ public class ProdutoService {
 			verificaSeIgualdadeDeCategoria(produto, secao);
 
 			Historico historico = historicoService.salvaHistorico(new Historico(null, objDto.getResponsavel(),
-					objDto.getHorario(), objDto.getVolume(), secao, produto, Operacao.COMPRA));
+					new Date(), objDto.getVolume(), secao, produto, Operacao.COMPRA));
 			secao.addHistorico(historico);
 			secao.addVolumeNoEstoque(historico.getVolume());
 			produto.addHistorico(historico);
@@ -122,13 +122,16 @@ public class ProdutoService {
 			throw new ResourceNotFoundException(e.getMessage());
 		} catch (LimitSecaoException e) {
 			throw new LimitSecaoException(e.getMessage());
+		} catch (ResourceNotFoundException e) {
+			throw new ResourceNotFoundException(e.getMessage());
+			
 		} catch (DataIntegrityViolationException e) {
 			System.out.println(
-					"Classe: ProdotoService, Funcão: entradaDeProduto, Exception: DataIntegrityViolationException, Mensagem: "
+					"Classe: ProdotoService, Funcão: saidaDeProduto, Exception: DataIntegrityViolationException, Mensagem: "
 							+ e.getMessage());
 			return null;
 		} catch (Exception e) {
-			System.out.println("Classe: ProdotoService, Funcão: entradaDeProduto, Exception: Exception, Mensagem: "
+			System.out.println("Classe: ProdotoService, Funcão: saidaDeProduto, Exception: Exception, Mensagem: "
 					+ e.getMessage());
 			return null;
 		}
@@ -147,7 +150,7 @@ public class ProdutoService {
 			verificaSeIgualdadeDeCategoria(produto, secao);
 			
 			Historico historico = historicoService.salvaHistorico(new Historico(null, objDto.getResponsavel(),
-					objDto.getHorario(), objDto.getVolume(), secao, produto, Operacao.VENDA));
+					new Date(), objDto.getVolume(), secao, produto, Operacao.VENDA));
 			secao.addHistorico(historico);
 			secao.removeVolumeDoEstoque(historico.getVolume());
 			produto.addHistorico(historico);
@@ -157,6 +160,9 @@ public class ProdutoService {
 			throw new ResourceNotFoundException(e.getMessage());
 		} catch (LimitSecaoException e) {
 			throw new LimitSecaoException(e.getMessage());
+		}  catch (ResourceNotFoundException e) {
+			throw new ResourceNotFoundException(e.getMessage());
+			
 		} catch (DataIntegrityViolationException e) {
 			System.out.println(
 					"Classe: ProdotoService, Funcão: saidaDeProduto, Exception: DataIntegrityViolationException, Mensagem: "

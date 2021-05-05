@@ -16,6 +16,7 @@ import com.estoqueBebidas.entities.Secao;
 import com.estoqueBebidas.entities.dto.HistoricoOutDTO;
 import com.estoqueBebidas.entities.dto.SecaoOutDto;
 import com.estoqueBebidas.service.HistoricoService;
+import com.estoqueBebidas.service.exception.ResourceNotFoundException;
 
 @RestController
 @RequestMapping(value = "/historicos")
@@ -26,9 +27,13 @@ public class HistoricoResource {
 	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<HistoricoOutDTO> buscarPorId(@PathVariable Integer id){
-		Historico historico = historicoService.buscarPorId(id);
-		HistoricoOutDTO objDto = new HistoricoOutDTO(historico);
-		return ResponseEntity.ok().body(objDto);
+		try {
+			Historico historico = historicoService.buscarPorId(id);
+			HistoricoOutDTO objDto = new HistoricoOutDTO(historico);
+			return ResponseEntity.ok().body(objDto);
+		} catch (ResourceNotFoundException e) {
+			throw new ResourceNotFoundException(e.getMessage());
+		}
 	}
 	
 	@GetMapping
@@ -41,8 +46,12 @@ public class HistoricoResource {
 	public ResponseEntity<SecaoOutDto> buscarPorCategoriaESecao(
 			@RequestParam(value = "categoria", defaultValue = "")String categoria,
 			@RequestParam(value = "secao", defaultValue = "") String secao){
-		Secao respSecao = historicoService.buscarPorCategoriaESecao(categoria,secao);
-		SecaoOutDto secaoDto = new SecaoOutDto(respSecao);
-		return ResponseEntity.ok().body(secaoDto);
+		try {
+			Secao respSecao = historicoService.buscarPorCategoriaESecao(categoria,secao);
+			SecaoOutDto secaoDto = new SecaoOutDto(respSecao);
+			return ResponseEntity.ok().body(secaoDto);
+		} catch (ResourceNotFoundException e) {
+			throw new ResourceNotFoundException(e.getMessage());
+		}
 	}
 }

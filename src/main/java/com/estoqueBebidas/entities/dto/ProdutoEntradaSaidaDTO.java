@@ -1,14 +1,12 @@
 package com.estoqueBebidas.entities.dto;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class ProdutoEntradaSaidaDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer produto_id;	
-	private String responsavel; 
-	private Date horario = new Date();		
+	private String responsavel;		
 	private Integer secao_id;
 	private Double volume;
 	
@@ -46,14 +44,6 @@ public class ProdutoEntradaSaidaDTO implements Serializable {
 
 	public void setResponsavel(String responsavel) {
 		this.responsavel = responsavel;
-	}
-
-	public Date getHorario() {
-		return horario;
-	}
-
-	public void setHorario(Date horario) {
-		this.horario = horario;
 	}
 
 	public Double getVolume() {

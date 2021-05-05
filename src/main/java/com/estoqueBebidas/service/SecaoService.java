@@ -24,6 +24,7 @@ public class SecaoService {
 
 	public Secao buscarPorId(Integer id) {
 		Optional<Secao> secao = secaoRepo.findById(id);
+		System.out.println("Chegou secao: "+id);
 		return secao.orElseThrow(() -> new ResourceNotFoundException("Secão não foi encontrado. ID informado: " + id));
 	}
 
@@ -60,11 +61,14 @@ public class SecaoService {
 
 	public Categoria converteCategoria(String strValor) {
 		try {
-			return Categoria.valueOf(strValor);
-
+			return Categoria.valueOf(strValor.toUpperCase());
 		} catch (IllegalArgumentException e) {
+			String buffer = "";
+			for(Categoria x: Categoria.values()) {
+				buffer += x+" ";
+			}
 			throw new IllegalArgumentException(
-					"Valor informado no parâmetro não é uma Categoria. Valor informado: " + strValor);
+					"Valor informado no parâmetro não é uma Categoria. Valor informado: " + strValor+". Valores aceito: "+buffer);
 		}
 
 	}
