@@ -60,11 +60,15 @@ public class SecaoService {
 
 	public Categoria converteCategoria(String strValor) {
 		try {
-			return Categoria.valueOf(strValor);
+			return Categoria.valueOf(strValor.toUpperCase());
 
 		} catch (IllegalArgumentException e) {
+			String buffer = "";
+			for (Categoria x: Categoria.values()) {
+				buffer += x + " ";
+			}
 			throw new IllegalArgumentException(
-					"Valor informado no parâmetro não é uma Categoria. Valor informado: " + strValor);
+					"Valor informado no parâmetro não é uma Categoria. Valor informado: " + strValor+". Valores aceito: "+buffer);
 		}
 
 	}

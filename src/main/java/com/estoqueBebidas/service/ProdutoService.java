@@ -113,7 +113,7 @@ public class ProdutoService {
 			verificaSeIgualdadeDeCategoria(produto, secao);
 
 			Historico historico = historicoService.salvaHistorico(new Historico(null, objDto.getResponsavel(),
-					objDto.getHorario(), objDto.getVolume(), secao, produto, Operacao.COMPRA));
+					new Date(), objDto.getVolume(), secao, produto, Operacao.COMPRA));
 			secao.addHistorico(historico);
 			secao.addVolumeNoEstoque(historico.getVolume());
 			produto.addHistorico(historico);
@@ -148,7 +148,7 @@ public class ProdutoService {
 			verificaSeIgualdadeDeCategoria(produto, secao);
 			
 			Historico historico = historicoService.salvaHistorico(new Historico(null, objDto.getResponsavel(),
-					objDto.getHorario(), objDto.getVolume(), secao, produto, Operacao.VENDA));
+					new Date(), objDto.getVolume(), secao, produto, Operacao.VENDA));
 			secao.addHistorico(historico);
 			secao.removeVolumeDoEstoque(historico.getVolume());
 			produto.addHistorico(historico);
