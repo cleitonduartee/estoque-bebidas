@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.estoqueBebidas.entities.Secao;
+import com.estoqueBebidas.entities.dto.SecaoDisponivelEntradaOutDTO;
 import com.estoqueBebidas.entities.dto.VolumePorCategoriaOutDTO;
 import com.estoqueBebidas.entities.enuns.Categoria;
 import com.estoqueBebidas.repository.SecaoRepository;
@@ -75,5 +76,8 @@ public class SecaoService {
 					"Valor informado no parâmetro não é uma Categoria. Valor informado: " + strValor+". Valores aceito: "+buffer);
 		}
 
+	}
+	public List<SecaoDisponivelEntradaOutDTO> disponivelParaEntrada(Double valor){
+		return secaoRepo.disponivelParaEntrada(valor);
 	}
 }

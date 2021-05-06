@@ -41,11 +41,8 @@ public class SecaoResouce {
 			@RequestParam(value = "valor", defaultValue = "1") String strValor) {
 		try {
 			Double valor = secaoService.convertDouble(strValor);
-			List<Secao> listSecao = secaoService.buscarTodos();
-			List<SecaoDisponivelEntradaOutDTO> listDto = listSecao.stream()
-					.filter(x -> (x.getVolumeLivreNoEstoque() >= valor)).map(x -> new SecaoDisponivelEntradaOutDTO(x))
-					.collect(Collectors.toList());
-			return ResponseEntity.ok().body(listDto);
+			List<SecaoDisponivelEntradaOutDTO> list = secaoService.disponivelParaEntrada(valor);//			
+			return ResponseEntity.ok().body(list);
 		} catch (IllegalArgumentException e) {
 			throw new ResourceNotFoundException(e.getMessage());
 		}
