@@ -1,7 +1,6 @@
 package com.estoqueBebidas.resource;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.estoqueBebidas.entities.Secao;
 import com.estoqueBebidas.entities.dto.SecaoDisponivelEntradaOutDTO;
 import com.estoqueBebidas.entities.dto.SecaoDisponivelSaidaOutDTO;
 import com.estoqueBebidas.entities.dto.VolumePorCategoriaOutDTO;
@@ -54,10 +52,7 @@ public class SecaoResouce {
 			@RequestParam(value = "categoria") String strCategoriar) {
 		try {
 			Categoria categoria = secaoService.converteCategoria(strCategoriar);
-			List<Secao> listSecao = secaoService.buscarTodos();
-			List<SecaoDisponivelSaidaOutDTO> listDto = listSecao.stream()
-					.filter(x -> x.getCategoria().getCod() == categoria.getCod())
-					.map(x -> new SecaoDisponivelSaidaOutDTO(x)).collect(Collectors.toList());
+			List<SecaoDisponivelSaidaOutDTO> listDto = secaoService.disponivelParaSaida(categoria);//			
 			return ResponseEntity.ok().body(listDto);
 		} catch (IllegalArgumentException e) {
 			throw new ResourceNotFoundException(e.getMessage());

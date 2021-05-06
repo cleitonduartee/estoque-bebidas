@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.estoqueBebidas.entities.Secao;
 import com.estoqueBebidas.entities.dto.SecaoDisponivelEntradaOutDTO;
+import com.estoqueBebidas.entities.dto.SecaoDisponivelSaidaOutDTO;
 import com.estoqueBebidas.entities.dto.VolumePorCategoriaOutDTO;
 import com.estoqueBebidas.entities.enuns.Categoria;
 import com.estoqueBebidas.repository.SecaoRepository;
@@ -79,5 +80,8 @@ public class SecaoService {
 	}
 	public List<SecaoDisponivelEntradaOutDTO> disponivelParaEntrada(Double valor){
 		return secaoRepo.disponivelParaEntrada(valor);
+	}
+	public List<SecaoDisponivelSaidaOutDTO> disponivelParaSaida(Categoria categoria){
+		return secaoRepo.disponivelParaSaida(categoria.getCod());
 	}
 }
