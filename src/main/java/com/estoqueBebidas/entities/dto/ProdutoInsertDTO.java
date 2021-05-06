@@ -12,7 +12,7 @@ public class ProdutoInsertDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@NotEmpty(message = "Preenchimento obrigatório")
-	@Length(min=3, message = "O nome deve conter ao menos 5 caracteres")
+	@Length(min=3, message = "O nome deve conter ao menos 3 caracteres")
 	private String nome;
 	
 	

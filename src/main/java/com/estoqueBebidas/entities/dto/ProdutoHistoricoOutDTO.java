@@ -8,7 +8,7 @@ import com.estoqueBebidas.entities.enuns.Categoria;
 public class ProdutoHistoricoOutDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private Integer id;
+	
 	private String nome;
 	private Categoria categoria;
 	
@@ -19,17 +19,9 @@ public class ProdutoHistoricoOutDTO implements Serializable {
 
 	public ProdutoHistoricoOutDTO(Produto produto) {
 		super();
-		id = produto.getId();
+		
 		nome = produto.getNome();
 		categoria = produto.getCategoria();		
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public String getNome() {

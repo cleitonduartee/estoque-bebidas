@@ -14,8 +14,8 @@ public class HistoricoOutDTO implements Serializable {
 	private String responsavel;	
 	@JsonFormat(pattern = "HH:mm",timezone = "Brazil/East")
 	private Date horario;
-	private Double volume;	
-	private ProdutoHistoricoOutDTO produtos;
+	private Double volume;		
+	private SecaoHistoricoOutDto secao;
 	private Operacao operacao;
 	
 	
@@ -27,7 +27,7 @@ public class HistoricoOutDTO implements Serializable {
 		responsavel = obj.getResponsavel();
 		horario = obj.getHorario();
 		volume = obj.getVolume();
-		produtos = new ProdutoHistoricoOutDTO(obj.getProduto());	
+		secao = new SecaoHistoricoOutDto(obj);	
 		setOperacao(obj.getOperacao());		
 	}
 	
@@ -48,18 +48,19 @@ public class HistoricoOutDTO implements Serializable {
 	}
 	public void setVolume(Double volume) {
 		this.volume = volume;
-	}
-	public ProdutoHistoricoOutDTO getProdutos() {
-		return produtos;
-	}
-	public void setProduto(ProdutoHistoricoOutDTO produto) {
-		this.produtos = produto;
-	}
+	}	
 	public Operacao getOperacao() {
 		return operacao;
 	}
 	public void setOperacao(Operacao operacao) {
 		this.operacao = operacao;
 	}
+	public SecaoHistoricoOutDto getSecao() {
+		return secao;
+	}
+	public void setSecao(SecaoHistoricoOutDto secao) {
+		this.secao = secao;
+	}
+	
 	
 }
