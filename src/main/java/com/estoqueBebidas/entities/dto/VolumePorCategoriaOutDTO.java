@@ -1,42 +1,40 @@
 package com.estoqueBebidas.entities.dto;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
-import com.estoqueBebidas.entities.Secao;
 import com.estoqueBebidas.entities.enuns.Categoria;
 
 public class VolumePorCategoriaOutDTO  implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private Categoria categoria;
-	private Double total = 0.0;
-	private List<SecaoVolumePorCategoriaOutDTO> secoes = new ArrayList<>();
+	private Categoria categoria;	
+	private Double totalPorCategoria;
+	
 		
-	public VolumePorCategoriaOutDTO(Categoria categoria) {
-		this.categoria = categoria;		
+	public VolumePorCategoriaOutDTO() {
+		
 	}
 	
+	public VolumePorCategoriaOutDTO(Integer categoria, Double volume) {
+		this.categoria = Categoria.convertCategoria(categoria);		
+		this.totalPorCategoria = volume;
+		
+	}
+
 	public Categoria getCategoria() {
 		return categoria;
 	}
-	public Double getTotal() {
-		return total;
-	}
-	public void addTotal(Double totalPorTipo) {
-		total += totalPorTipo;
-	}
-	public List<SecaoVolumePorCategoriaOutDTO> getSecoes() {
-		return secoes;
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
 	}
 
-	public void addSecao(Secao secaos) {
-		secoes.add(new SecaoVolumePorCategoriaOutDTO(secaos));
+	public Double getTotalPorCategoria() {
+		return totalPorCategoria;
 	}
 
-
-
+	public void setTotalPorCategoria(Double totalPorCategoria) {
+		this.totalPorCategoria = totalPorCategoria;
+	}
 	
-		
 }

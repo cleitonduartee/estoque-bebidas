@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.estoqueBebidas.entities.Secao;
+import com.estoqueBebidas.entities.dto.VolumePorCategoriaOutDTO;
 import com.estoqueBebidas.entities.enuns.Categoria;
 import com.estoqueBebidas.repository.SecaoRepository;
 import com.estoqueBebidas.service.exception.ResourceNotFoundException;
@@ -23,10 +24,13 @@ public class SecaoService {
 	}
 
 	public Secao buscarPorId(Integer id) {
-		Optional<Secao> secao = secaoRepo.findById(id);
-		System.out.println("Chegou secao: "+id);
+		Optional<Secao> secao = secaoRepo.findById(id);		
 		return secao.orElseThrow(() -> new ResourceNotFoundException("Secão não foi encontrado. ID informado: " + id));
 	}
+	public List<VolumePorCategoriaOutDTO> volumePorCategoria() {
+		return secaoRepo.buscarPorVolume();		
+	}
+
 
 	public Secao buscarPorNome(String nome) {
 

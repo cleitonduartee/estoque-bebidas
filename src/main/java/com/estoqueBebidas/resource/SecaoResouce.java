@@ -1,6 +1,5 @@
 package com.estoqueBebidas.resource;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,25 +24,15 @@ public class SecaoResouce {
 
 	@Autowired
 	private SecaoService secaoService;
+	
+
 
 	@GetMapping(value = "/volumePorCategoria")
 	public ResponseEntity<List<VolumePorCategoriaOutDTO>> volumePorCategoria() {
-		List<Secao> listSecao = secaoService.buscarTodos();
-		VolumePorCategoriaOutDTO tipoAlcoolica = new VolumePorCategoriaOutDTO(Categoria.ALCOOLICA);
-		VolumePorCategoriaOutDTO tipoNaoAlcoolica = new VolumePorCategoriaOutDTO(Categoria.NAOALCOOLICA);
+		
+		List<VolumePorCategoriaOutDTO> lisTest = secaoService.volumePorCategoria();
 
-		listSecao.stream().forEach(x -> {
-			if (x.getCategoria().getCod() == tipoAlcoolica.getCategoria().getCod()) {
-				tipoAlcoolica.addTotal(x.getVolumeNoEstoque());
-				tipoAlcoolica.addSecao(x);
-			} else {
-				tipoNaoAlcoolica.addTotal(x.getVolumeNoEstoque());
-				tipoNaoAlcoolica.addSecao(x);
-			}
-		});
-
-		List<VolumePorCategoriaOutDTO> listPorTipo = Arrays.asList(tipoAlcoolica, tipoNaoAlcoolica);
-		return ResponseEntity.ok().body(listPorTipo);
+		return ResponseEntity.ok().body(lisTest);
 
 	}
 
