@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +22,7 @@ import com.estoqueBebidas.entities.dto.ProdutoEntradaSaidaDTO;
 import com.estoqueBebidas.entities.dto.ProdutoInsertDTO;
 import com.estoqueBebidas.entities.dto.ProdutoOutDTO;
 import com.estoqueBebidas.service.ProdutoService;
+import com.estoqueBebidas.service.exception.ResourceNotFoundException;
 
 @RestController
 @RequestMapping(value = "/produtos")
@@ -45,9 +48,13 @@ public class ProdutoResource {
 	@GetMapping(value = "/findByCategoria")
 	public ResponseEntity<List<ProdutoOutDTO>> buscarPorCategoria(@RequestParam(value = "categoria") String categoria) {
 
-		List<Produto> list = produtoService.buscarPorCategoria(categoria);
-		List<ProdutoOutDTO> listDto = list.stream().map(x -> new ProdutoOutDTO(x)).collect(Collectors.toList());
-		return ResponseEntity.ok().body(listDto);
+		try {
+			List<Produto> list = produtoService.buscarPorCategoria(categoria);
+			List<ProdutoOutDTO> listDto = list.stream().map(x -> new ProdutoOutDTO(x)).collect(Collectors.toList());
+			return ResponseEntity.ok().body(listDto);
+		} catch (ResourceNotFoundException e) {
+			throw new ResourceNotFoundException(e.getMessage());
+		}
 
 	}
 	
@@ -62,19 +69,19 @@ public class ProdutoResource {
 	}
 	
 	@PostMapping(value="/cadastrar")
-	public ResponseEntity<Void> cadastrarProduto(@RequestBody ProdutoInsertDTO objDto){
+	public ResponseEntity<Void> cadastrarProduto(@Valid @RequestBody ProdutoInsertDTO objDto){
 		Produto produto = produtoService.cadastrarProduto(objDto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(produto.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 	@PostMapping(value="/compra")
-	public ResponseEntity<Void> entradaProduto(@RequestBody ProdutoEntradaSaidaDTO objDto){
+	public ResponseEntity<Void> entradaProduto(@Valid @RequestBody ProdutoEntradaSaidaDTO objDto){
 		Produto produto = produtoService.entradaDeProduto(objDto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(produto.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 	@PostMapping(value="/venda")
-	public ResponseEntity<Void> saidaProduto(@RequestBody ProdutoEntradaSaidaDTO objDto){
+	public ResponseEntity<Void> saidaProduto(@Valid @RequestBody ProdutoEntradaSaidaDTO objDto){
 		Produto produto = produtoService.saidaDeProduto(objDto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(produto.getId()).toUri();
 		return ResponseEntity.created(uri).build();

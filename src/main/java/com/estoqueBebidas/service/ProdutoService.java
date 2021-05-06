@@ -47,12 +47,16 @@ public class ProdutoService {
 
 	public List<Produto> buscarPorCategoria(String categoria) {
 		try {
-			Categoria convertCategoria = Categoria.valueOf(categoria);
+			Categoria convertCategoria = Categoria.valueOf(categoria.toUpperCase());
 			return produtoRepo.findByCategoria(convertCategoria.getCod());
 
 		} catch (IllegalArgumentException e) {
+			String buffer = "";
+			for(Categoria x: Categoria.values()) {
+				buffer += x + " ";
+			}				
 			throw new ResourceNotFoundException(
-					"Parmetro informado na busca do produto não foi encontrado. CATEGORIA: " + categoria);
+					"Parmetro informado na busca do produto não foi encontrado. CATEGORIA: " + categoria+". Valores aceito: "+buffer);
 		}
 
 	}

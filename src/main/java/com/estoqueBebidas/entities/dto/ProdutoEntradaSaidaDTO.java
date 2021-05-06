@@ -2,12 +2,21 @@ package com.estoqueBebidas.entities.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
 public class ProdutoEntradaSaidaDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer produto_id;	
+	
+	@NotEmpty(message = "Preenchimento obrigatório")	
+	@Length(min=3, message = "O nome deve conter ao menos 3 caracteres")
 	private String responsavel;		
+	
 	private Integer secao_id;
+	
 	private Double volume;
 	
 	public ProdutoEntradaSaidaDTO() {
