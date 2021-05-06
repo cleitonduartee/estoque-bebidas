@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,8 +38,12 @@ public class HistoricoResource {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<HistoricoOutDTO>> buscarTodos(){
-		List<Historico> list = historicoService.buscarTodos();
+	public ResponseEntity<List<HistoricoOutDTO>> buscarTodos(
+			@RequestParam(value = "page", defaultValue = "0") Integer page, 
+			@RequestParam(value = "linesPerPage", defaultValue = "24")	Integer linesPerPage, 
+			@RequestParam(value = "orderBy", defaultValue = "Secao")	String orderBy, 
+			@RequestParam(value = "direction", defaultValue = "ASC")String direction){
+		Page<Historico> list = historicoService.buscarTodos(page,linesPerPage,orderBy,direction);
 		List<HistoricoOutDTO> listDto = list.stream().map(x -> new HistoricoOutDTO(x)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDto);
 	}

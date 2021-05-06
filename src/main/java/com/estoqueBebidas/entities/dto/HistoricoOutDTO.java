@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class HistoricoOutDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	
+	private Integer id;
 	private String responsavel;	
 	@JsonFormat(pattern = "HH:mm",timezone = "Brazil/East")
 	private Date horario;
@@ -23,7 +23,7 @@ public class HistoricoOutDTO implements Serializable {
 		
 	}
 	public HistoricoOutDTO(Historico obj) {
-		
+		setId(obj.getId());
 		responsavel = obj.getResponsavel();
 		horario = obj.getHorario();
 		volume = obj.getVolume();
@@ -60,6 +60,12 @@ public class HistoricoOutDTO implements Serializable {
 	}
 	public void setSecao(SecaoHistoricoOutDto secao) {
 		this.secao = secao;
+	}
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	
 	

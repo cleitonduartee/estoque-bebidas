@@ -1,10 +1,12 @@
 package com.estoqueBebidas.service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,8 +25,9 @@ public class HistoricoService {
 	@Autowired
 	private SecaoService secaoService;
 
-	public List<Historico> buscarTodos() {
-		return historicoRepo.findAll();
+	public Page<Historico> buscarTodos(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		PageRequest pageRequest = PageRequest.of(page,linesPerPage,Direction.valueOf(direction),orderBy);
+		return historicoRepo.findAll(pageRequest);
 	}
 
 	public Historico buscarPorId(Integer id) {
