@@ -1,39 +1,24 @@
-# API Estoque-bebidas
+# 👨‍💻 API Estoque-bebidas 👨‍💻
 
-#Ao baixar esse projeto e execultar em sua maquina, irá ser populados 5 secões ( Cervejas, Sucos, Refrigerantes, Vinhos e Energeticos) e também será populada alguns produtos pertencentes a essas seções.
-Tanto os produtos como as Secões tem a informação das Categoria.
+**Info 01:** Ao clonar esse projeto e execultar em sua maquina local, sera populados 5 secões:
+- [x] Cervejas, 
+- [x] Sucos,
+- [x] Refrigerantes,
+- [x] Vinhos e
+- [x] Energeticos
 
-#Atualmente existe dois tipo de Categorias: "Alcoolica e NãoAlcoolica".
+**Info 02:** Link para acessar Banco H2 e Swager:
+- **_Banco H2:_**        http://localhost:8080/h2-console  
+- **_Swagger API:_**     http://localhost:8080/swagger-ui.html 
+- ( _Obs: só acessa após o projeto ser iniciado_)
 
-#Para acessar os dados instanciado em memória, acessar o link: http://localhost:8080/h2-console - Banco H2   
 
-#Para acessar a documentação dessa Api no swagger, acessar o link : http://localhost:8080/swagger-ui.html
+[![git](https://img.shields.io/badge/-Github-000?style=for-the-badge&logo=Github)](https://github.com/cleitonduartee)
+[![linkedin](https://img.shields.io/badge/-LinkedIn-blue?style=for-the-badge&logo=Linkedin)](https://www.linkedin.com/in/cleiton-duarte-goncalves-384903178/)
+[![gmail](https://img.shields.io/badge/-Gmail-c14438?style=for-the-badge&logo=Gmail&logoColor=white)](mailto:cleitonduarte2021@gmail.com)
+[![face](https://img.shields.io/badge/-Facebook-blue?style=for-the-badge&logo=Facebook&logoColor=white)](https://www.facebook.com/CleitonDuarteGoncalves)
+[![insta](https://img.shields.io/badge/-Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/cleitonn_duarte/)
+[![whats](https://img.shields.io/badge/-Whatsapp-4CA143?style=for-the-badge&logo=whatsapp&logoColor=white)](https://api.whatsapp.com/send?phone=55+67+991568155)
+---
+<!--[![GitHub watchers](https://img.shields.io/github/watchers/cleitonduartee/cleitonduartee?color=gree&label=Visits)](https://github.com/cleitonduartee)-->
 
-#Atualmente existem os endPoit : 
-
-      #(GET) /historicos - retorna todos os historicos de (Cadastro, compra e venda ) de produtos.
-      
-      #(GET) /historicos/porCategoriaSecao - Esse end point busca todos os historico que for informado no parametro de categoria e sua respectiva seção.
-      
-      #(GET) /historicos/{id} - Esse end point retorna o historico conforme o ID informado.
-      
-      #(GET) /produtos -  retorna todos os produtos cadastrados.
-      
-      #(POST) /produtos/cadastrar - Esse end point faz realiza um cadastro de produto. 
-      
-      #(POST) /produtos/compra - Esse end point realiza uma compra do produto.
-      
-      #(POST) /produtos/venda - Esse end point realiza uma venda do produto
-      
-      #(GET) /produtos/findByCategoira - Esse end point retorna os produtos conforme a Categoria informada.
-      
-      #(GET) /produtos/{id} - Esse end point retorna o produto conforme o ID informado.
-      
-      #(GET) /secao/disponivelEntrada - esse end point verifica qual seção está disponível para entrada conforme o volume informado.
-      
-      #(GET) /secao/disponivelSaida - esse end point verifica qual seção tem estoque para venda conforme a categoria informada.
-      
-      #(GET) /secao/volumePorCategoria - esse end point retorna o total em estoque das categorias.
-      
-      
-      
